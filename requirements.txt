@@ -1,0 +1,20 @@
+# IGNIS — dependencias del backend (Python 3.11+)
+numpy>=1.26
+pandas>=2.2
+matplotlib>=3.8
+scikit-learn>=1.4
+joblib>=1.3
+h5py>=3.10   # lectura de HDF5 de PSI (src/lector_psi.py)
+
+fastapi>=0.110
+uvicorn[standard]>=0.29
+pydantic>=2.7
+pydantic-settings>=2.2
+
+# Deep learning (CPU basta; GPU opcional). Si falla la descarga: pip install torch --index-url https://download.pytorch.org/whl/cpu
+torch>=2.4
+
+# Pruebas
+pytest>=8.0
+httpx>=0.27
+reportlab>=4.0

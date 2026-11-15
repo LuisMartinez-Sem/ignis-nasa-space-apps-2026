@@ -1,0 +1,190 @@
+{
+  "generado_utc": "2026-10-17T03:41:32.969424+00:00",
+  "origen_datos": "sintetico",
+  "n_filas_dataset": 6000,
+  "version_dataset": "20261017-034026_c2b220e0",
+  "motores": [
+    {
+      "nombre": "rf",
+      "metricas": {
+        "r2_velocidad": 0.9515986818419735,
+        "mae_velocidad_mm_s": 0.2345329999146586,
+        "exactitud_propagacion": 0.9625,
+        "auc_propagacion": 0.9937971140550426,
+        "brier_propagacion": 0.03570735534294832,
+        "ece_propagacion": 0.05832607882041706,
+        "n_entrenamiento": 4800,
+        "n_prueba": 1200
+      },
+      "latencia_1_fila": {
+        "p50_ms": 11.540008499991927,
+        "p95_ms": 13.303087200009143,
+        "por_muestra_us": 11783.256200002748,
+        "n_repeticiones": 30,
+        "tamano_lote": 1
+      },
+      "latencia_lote": {
+        "p50_ms": 15.981052000000773,
+        "p95_ms": 21.378525449955532,
+        "por_muestra_us": 168.84373150003285,
+        "n_repeticiones": 20,
+        "tamano_lote": 100
+      },
+      "n_parametros": null
+    },
+    {
+      "nombre": "profundo",
+      "metricas": {
+        "r2_velocidad": 0.9909308536311922,
+        "mae_velocidad_mm_s": 0.08239754169613421,
+        "exactitud_propagacion": 0.9933333333333333,
+        "auc_propagacion": 0.9998466702350685,
+        "brier_propagacion": 0.005050234438241355,
+        "ece_propagacion": 0.006638505329476349,
+        "n_entrenamiento": 4800,
+        "n_prueba": 1200
+      },
+      "latencia_1_fila": {
+        "p50_ms": 3.5598175000188803,
+        "p95_ms": 3.8935107499952437,
+        "por_muestra_us": 3574.6219333399645,
+        "n_repeticiones": 30,
+        "tamano_lote": 1
+      },
+      "latencia_lote": {
+        "p50_ms": 5.161199499980285,
+        "p95_ms": 6.268071400023704,
+        "por_muestra_us": 51.488756999930274,
+        "n_repeticiones": 20,
+        "tamano_lote": 100
+      },
+      "n_parametros": 46095
+    }
+  ],
+  "detector": {
+    "metricas": {
+      "perdida_validacion": 0.0006295308121480048,
+      "exactitud_por_muestra": 0.9998640418052673,
+      "epocas_entrenadas": 21,
+      "n_parametros": 16163,
+      "n_secuencias_entrenamiento": 1500,
+      "origen_datos": "sintetico"
+    },
+    "benchmark": {
+      "n_secuencias": 600,
+      "duracion_s": 30.0,
+      "frecuencia_hz": 10.0,
+      "metodos": [
+        {
+          "nombre": "IGNIS · TCN multicanal",
+          "descripcion": "Red temporal causal sobre 6 canales; alarma con 3 votos seguidos.",
+          "por_tipo": {
+            "fria": {
+              "n_eventos": 139,
+              "tasa_deteccion": 1.0,
+              "ttd_mediana_s": 0.7,
+              "ttd_p90_s": 0.9
+            },
+            "fria_a_caliente": {
+              "n_eventos": 76,
+              "tasa_deteccion": 1.0,
+              "ttd_mediana_s": 0.7,
+              "ttd_p90_s": 0.9
+            },
+            "caliente": {
+              "n_eventos": 115,
+              "tasa_deteccion": 1.0,
+              "ttd_mediana_s": 0.7,
+              "ttd_p90_s": 0.8
+            }
+          },
+          "falsas_alarmas_por_hora": 0.0,
+          "tasa_deteccion_global": 1.0
+        },
+        {
+          "nombre": "Umbral térmico fijo (30 K)",
+          "descripcion": "Detector clásico de un canal con persistencia de 5 muestras.",
+          "por_tipo": {
+            "fria": {
+              "n_eventos": 139,
+              "tasa_deteccion": 0.9856115107913669,
+              "ttd_mediana_s": 1.1,
+              "ttd_p90_s": 2.3400000000000003
+            },
+            "fria_a_caliente": {
+              "n_eventos": 76,
+              "tasa_deteccion": 1.0,
+              "ttd_mediana_s": 1.1,
+              "ttd_p90_s": 2.6
+            },
+            "caliente": {
+              "n_eventos": 115,
+              "tasa_deteccion": 1.0,
+              "ttd_mediana_s": 0.5,
+              "ttd_p90_s": 0.6
+            }
+          },
+          "falsas_alarmas_por_hora": 8.108670039503776,
+          "tasa_deteccion_global": 0.9939393939393939
+        },
+        {
+          "nombre": "Umbral térmico calibrado (60 K)",
+          "descripcion": "Mismo detector, con el umbral más sensible que no supera las falsas alarmas de IGNIS.",
+          "por_tipo": {
+            "fria": {
+              "n_eventos": 139,
+              "tasa_deteccion": 0.841726618705036,
+              "ttd_mediana_s": 1.7,
+              "ttd_p90_s": 3.5600000000000023
+            },
+            "fria_a_caliente": {
+              "n_eventos": 76,
+              "tasa_deteccion": 1.0,
+              "ttd_mediana_s": 1.9,
+              "ttd_p90_s": 6.3
+            },
+            "caliente": {
+              "n_eventos": 115,
+              "tasa_deteccion": 1.0,
+              "ttd_mediana_s": 0.6,
+              "ttd_p90_s": 0.6
+            }
+          },
+          "falsas_alarmas_por_hora": 0.0,
+          "tasa_deteccion_global": 0.9333333333333333
+        },
+        {
+          "nombre": "Cámara visible",
+          "descripcion": "Lo que ve un astronauta o una cámara convencional: solo llamas luminosas.",
+          "por_tipo": {
+            "fria": {
+              "n_eventos": 139,
+              "tasa_deteccion": 0.02158273381294964,
+              "ttd_mediana_s": 14.5,
+              "ttd_p90_s": 16.66
+            },
+            "fria_a_caliente": {
+              "n_eventos": 76,
+              "tasa_deteccion": 1.0,
+              "ttd_mediana_s": 7.15,
+              "ttd_p90_s": 9.9
+            },
+            "caliente": {
+              "n_eventos": 115,
+              "tasa_deteccion": 0.9826086956521739,
+              "ttd_mediana_s": 0.3,
+              "ttd_p90_s": 0.4
+            }
+          },
+          "falsas_alarmas_por_hora": 5.3018227181370845,
+          "tasa_deteccion_global": 0.5818181818181818
+        }
+      ],
+      "latencia_inferencia_ms_p50": 0.5041234999794142,
+      "latencia_inferencia_ms_p95": 0.6101080000291859,
+      "origen_datos": "sintetico",
+      "nota": "Señales sintéticas: valida la mecánica y la latencia, no la física real. Recalibrar con series de FLEX/BASS."
+    }
+  },
+  "nota": "Las métricas provienen de datos sintéticos semi-empíricos hasta cargar PSI; miden la mecánica del sistema, no la física real."
+}

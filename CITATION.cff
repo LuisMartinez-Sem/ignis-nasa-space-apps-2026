@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "Si usas IGNIS, cítalo con estos metadatos."
+title: "IGNIS: Intelligent Guidance for Ignition & Suppression"
+type: software
+version: 1.5.2
+date-released: 2026-11-12
+license: MIT
+repository-code: ""   # completar con la URL del repositorio al publicarlo
+abstract: >-
+  Copiloto de IA y gemelo digital 3D para la detección temprana de incendios y llamas frías
+  en microgravedad. Proyecto del NASA Space Apps Challenge 2026 (Hermosillo), reto "Flame in Freefall".
+  Entrenado con datos sintéticos hasta integrar datos reales de NASA PSI.
+authors:
+  - family-names: Martinez
+    given-names: Cristobal
+    affiliation: "Universidad de Sonora"
+  - family-names: Navarro López
+    given-names: Elías
+    affiliation: "Universidad de Sonora"
+keywords:
+  - microgravedad
+  - seguridad contra incendios
+  - cool flames
+  - aprendizaje automático
+  - NASA Space Apps
