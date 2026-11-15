@@ -1,0 +1,8 @@
+{
+  "n_filas": 323.0,
+  "fraccion_ignicion": 0.8142414860681114,
+  "auc_ignicion": 0.7916032953105197,
+  "brier_modelo": 0.1268428434866114,
+  "brier_trivial": 0.15125228843370486,
+  "r2_tiempo_quemado_log": 0.6004991402962478
+}

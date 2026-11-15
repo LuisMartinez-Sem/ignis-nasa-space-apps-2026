@@ -1,0 +1,146 @@
+{
+  "id": "mir-1997",
+  "nombre": "Incendio en Mir (Kvant-1)",
+  "fecha": "1997-02-23",
+  "fecha_nota": "NASA Safety Message indica 23-feb; NASA History indica 24-feb. Ambas son fuentes oficiales; el fuego ocurrió de noche (hora de Moscú).",
+  "lugar": "Estación espacial Mir, módulo Kvant-1",
+  "regimen_gravedad": "microgravedad",
+  "tipo": "deteccion_respuesta",
+  "es_incendio": true,
+  "resumen": "Un generador de oxígeno de combustible sólido (SFOG, 'vela de oxígeno') se incendió con seis personas a bordo. La llama de ~0,9 m, con chispas y metal fundido, bloqueó el acceso a una de las dos cápsulas Soyuz. Es el incendio más grave documentado en una estación espacial tripulada.",
+  "modelo_aplicable": true,
+  "advertencia_modelo": "La atmósfera, el flujo y la temperatura del evento NO están documentados. La telemetría de esta simulación es ILUSTRATIVA (construida por IGNIS a partir de la descripción cualitativa) y no es una medición.",
+  "duracion_simulacion_s": 120,
+  "inicio_evento_s": 0,
+  "traza_detector": { "tipo": "caliente", "semilla": 0 },
+  "condiciones_base": {
+    "fraccion_o2": 0.21,
+    "velocidad_flujo_cm_s": 8.0,
+    "presion_kpa": 101.3,
+    "temperatura_ambiente_k": 295.0,
+    "espesor_combustible_mm": 1.0,
+    "material": "celulosa",
+    "regimen_flujo": "concurrente",
+    "temperatura_reaccion_k": 295.0
+  },
+  "telemetria_ilustrativa": [
+    { "t_s": 0, "fraccion_o2": 0.21, "temperatura_reaccion_k": 295 },
+    { "t_s": 3, "fraccion_o2": 0.24, "temperatura_reaccion_k": 600 },
+    { "t_s": 6, "fraccion_o2": 0.30, "temperatura_reaccion_k": 1100 },
+    { "t_s": 20, "fraccion_o2": 0.32, "temperatura_reaccion_k": 1150 },
+    { "t_s": 90, "fraccion_o2": 0.28, "temperatura_reaccion_k": 1000 },
+    { "t_s": 120, "fraccion_o2": 0.24, "temperatura_reaccion_k": 500 }
+  ],
+  "timeline_humano": [
+    {
+      "t_s": 0,
+      "accion": "Se activa el SFOG y se enciende en Kvant-1 (~22:35, hora de Moscú)",
+      "resultado": "Llama de ~0,9 m con chispas, metal fundido y humo denso.",
+      "categoria": "contexto",
+      "confianza": "documentado",
+      "fuente": 2
+    },
+    {
+      "t_s": 0,
+      "accion": "Detección visual directa: la llama era evidente",
+      "resultado": "Inferido de la descripción de la llama; la fuente no da un tiempo de detección.",
+      "categoria": "deteccion",
+      "confianza": "aproximado",
+      "fuente": 1
+    },
+    {
+      "t_s": null,
+      "accion": "La tripulación se coloca máscaras",
+      "resultado": "Cuántas máscaras había y cuánto tardó cada persona: NO documentado en las fuentes consultadas.",
+      "categoria": "respuesta",
+      "confianza": "documentado",
+      "fuente": 1
+    },
+    {
+      "t_s": null,
+      "accion": "Se usan 3 extintores de espuma",
+      "resultado": "Korzun rocía mientras Linenger lo sujeta; les pasan otros dos extintores.",
+      "categoria": "respuesta",
+      "confianza": "documentado",
+      "fuente": 1
+    },
+    {
+      "t_s": null,
+      "accion": "La llama bloquea el acceso a una de las dos cápsulas Soyuz",
+      "resultado": "Quedó cortada la ruta al Soyuz del extremo trasero de Kvant-1, el que usarían tres de los seis.",
+      "categoria": "escalada",
+      "confianza": "documentado",
+      "fuente": 1
+    },
+    {
+      "t_s": 90,
+      "accion": "Fin de la llama (~1,5 min según NASA Shuttle-Mir)",
+      "resultado": "NASA History habla de 'varios minutos'. La cifra exacta no es consistente entre fuentes oficiales.",
+      "categoria": "resolucion",
+      "confianza": "documentado",
+      "fuente": 2
+    },
+    {
+      "t_s": 840,
+      "accion": "'Incendio controlado a los 14 minutos' (cifra de fuentes secundarias)",
+      "resultado": "NO figura en la fuente NASA primaria consultada. Se muestra como límite superior no verificado.",
+      "categoria": "resolucion",
+      "confianza": "no_verificado",
+      "fuente": 4
+    },
+    {
+      "t_s": null,
+      "accion": "Humo: visibilidad muy reducida 5–20 min; limpiar el aire tomó horas",
+      "resultado": "Sin lesiones graves por inhalación reportadas.",
+      "categoria": "resolucion",
+      "confianza": "documentado",
+      "fuente": 2
+    }
+  ],
+  "ventana_humana_s": [90, 840],
+  "ventana_nota": "Duración del fuego: ~90 s (Culbertson, NASA) a ~840 s (14 min, fuentes secundarias no verificadas). Es una ventana de oportunidad, no un resultado medido.",
+  "supuestos_ignis": [
+    "Telemetría ilustrativa (O2 local 21→32 %, T de reacción 295→1150 K): NO son mediciones de Mir.",
+    "Material genérico 'celulosa' de 1 mm y flujo concurrente de 8 cm/s: el modelo no distingue la química del SFOG.",
+    "Los sensores muestrean a la frecuencia indicada en la metodología; el detector temporal opera a 10 Hz.",
+    "IGNIS emite una recomendación; ejecutarla requiere tiempo humano que NO se incluye."
+  ],
+  "fuentes": [
+    {
+      "id": 1,
+      "titulo": "25 Years Ago: Fire Aboard Space Station Mir",
+      "organizacion": "NASA History",
+      "url": "https://www.nasa.gov/history/25-years-ago-fire-aboard-space-station-mir/",
+      "fiabilidad": "alta"
+    },
+    {
+      "id": 2,
+      "titulo": "Linenger fire — Culbertson (Shuttle-Mir)",
+      "organizacion": "NASA Shuttle-Mir History",
+      "url": "https://spaceflight.nasa.gov/history/shuttle-mir/history/h-f-linenger-fire-cul.htm",
+      "fiabilidad": "alta"
+    },
+    {
+      "id": 3,
+      "titulo": "Safety Message: Trial by Fire",
+      "organizacion": "NASA Safety & Mission Assurance",
+      "url": "https://sma.nasa.gov/news/safety-messages/safety-message-item/trial-by-fire",
+      "fiabilidad": "alta"
+    },
+    {
+      "id": 4,
+      "titulo": "Fire in space: Jerry Linenger (divulgación)",
+      "organizacion": "BBC Science Focus",
+      "url": "https://www.sciencefocus.com/space/fire-in-space-jerry-linenger",
+      "fiabilidad": "baja",
+      "nota": "Origen de la cifra de 14 min; no figura en la fuente NASA primaria."
+    },
+    {
+      "id": 5,
+      "titulo": "Mir-23 summary",
+      "organizacion": "NASA SP-4225",
+      "url": "https://www.nasa.gov/history/SP-4225/documentation/mir-summaries/mir23/mr.htm",
+      "fiabilidad": "alta"
+    }
+  ]
+}

@@ -1,0 +1,134 @@
+{
+  "id": "apollo1-1967",
+  "nombre": "Apollo 1 (AS-204)",
+  "fecha": "1967-01-27",
+  "lugar": "Complejo de lanzamiento 34, Cabo Cañaveral (en tierra)",
+  "regimen_gravedad": "1g",
+  "tipo": "precondicion",
+  "es_incendio": true,
+  "resumen": "Durante una prueba en rampa, un incendio en la cabina presurizada con oxígeno puro costó la vida a Grissom, White y Chaffee. Ocurrió en 1 g, no en microgravedad: se incluye como el caso fundacional que muestra el peligro de una atmósfera enriquecida en O2.",
+  "modelo_aplicable": false,
+  "advertencia_modelo": "Fuera de dominio: el modelo de IGNIS cubre microgravedad y se entrenó con O2 ≤ 50 %. Aquí hay 1 g (llamas con flotabilidad) y O2 al 100 %. La evaluación es una EXTRAPOLACIÓN cualitativa, no una predicción fiable.",
+  "duracion_simulacion_s": 30,
+  "inicio_evento_s": 0,
+  "condiciones_base": {
+    "fraccion_o2": 1.0,
+    "velocidad_flujo_cm_s": 0.0,
+    "presion_kpa": 115.1,
+    "temperatura_ambiente_k": 295.0,
+    "espesor_combustible_mm": 0.3,
+    "material": "celulosa",
+    "regimen_flujo": "opuesto",
+    "temperatura_reaccion_k": 300.0
+  },
+  "timeline_humano": [
+    {
+      "t_s": null,
+      "accion": "Prueba en rampa con la cabina a 16,7 psia (≈115 kPa) y 100 % de oxígeno",
+      "resultado": "Atmósfera de prueba documentada por la Apollo 204 Review Board (otros apéndices dan ~16 o 16,4 psia). La conversión a kPa es nuestra.",
+      "categoria": "contexto",
+      "confianza": "documentado",
+      "fuente": 1
+    },
+    {
+      "t_s": 0,
+      "accion": "Primer reporte de fuego por la tripulación (23:31:04.7 GMT)",
+      "resultado": "Origen más probable: un arco eléctrico; no se identificó una única fuente de ignición de forma concluyente.",
+      "categoria": "deteccion",
+      "confianza": "documentado",
+      "fuente": 2
+    },
+    {
+      "t_s": 14.7,
+      "accion": "Ruptura de la cabina por sobrepresión (estimada 23:31:19.4 GMT)",
+      "resultado": "La escotilla no pudo abrirse antes de la ruptura por la presión interna.",
+      "categoria": "escalada",
+      "confianza": "documentado",
+      "fuente": 2
+    },
+    {
+      "t_s": 17,
+      "accion": "Fin de los datos: ~17 s después del reporte de fuego",
+      "resultado": "",
+      "categoria": "escalada",
+      "confianza": "documentado",
+      "fuente": 2
+    },
+    {
+      "t_s": 327,
+      "accion": "Se abre la escotilla interior (no más de 5 min 27 s tras el reporte)",
+      "resultado": "El entrenamiento apuntaba a 90 s; nunca se logró (según AIP).",
+      "categoria": "respuesta",
+      "confianza": "aproximado",
+      "fuente": 3
+    },
+    {
+      "t_s": null,
+      "accion": "Los tres tripulantes fallecen",
+      "resultado": "Cambios posteriores: materiales no inflamables, escotilla de apertura rápida y fin del uso de O2 puro presurizado en pruebas en tierra.",
+      "categoria": "resolucion",
+      "confianza": "documentado",
+      "fuente": 4
+    }
+  ],
+  "ventana_humana_s": [
+    14.7,
+    327
+  ],
+  "ventana_nota": "Desde el primer reporte hasta la ruptura de la cabina (14,7 s) y hasta abrir la escotilla (≤327 s).",
+  "supuestos_ignis": [
+    "IGNIS evalúa la atmósfera ANTES de la ignición: no hay telemetría del incendio que detectar.",
+    "Material genérico 'celulosa' de 0,3 mm como proxy de nylon/Velcro: el modelo no tiene esos materiales.",
+    "Temperatura ambiente 295 K supuesta (no figura en las fuentes consultadas).",
+    "La conversión 16,7 psia → 115,1 kPa es nuestra."
+  ],
+  "fuentes": [
+    {
+      "id": 1,
+      "titulo": "Apollo 204 Review Board — Findings, Determinations and Recommendations",
+      "organizacion": "NASA History",
+      "url": "https://www.nasa.gov/wp-content/uploads/static/history/Apollo204/find.html",
+      "fiabilidad": "alta"
+    },
+    {
+      "id": 2,
+      "titulo": "Apollo 204 Review Board — Appendix D-18 (cronología)",
+      "organizacion": "NASA History",
+      "url": "https://www.nasa.gov/wp-content/uploads/static/history/Apollo204/appendices/AppendixD18.pdf",
+      "fiabilidad": "alta"
+    },
+    {
+      "id": 3,
+      "titulo": "Apollo 204 Review Board — Appendix D-12 a D-17 (escotilla)",
+      "organizacion": "NASA History",
+      "url": "https://www.nasa.gov/wp-content/uploads/static/history/Apollo204/appendices/AppendixD12-17.pdf",
+      "fiabilidad": "alta",
+      "nota": "El tiempo hasta abrir la escotilla 'could not have exceeded five minutes, 27 seconds'."
+    },
+    {
+      "id": 4,
+      "titulo": "Preliminary memo (Seamans) — materiales y cambios de diseño",
+      "organizacion": "NASA History",
+      "url": "https://www.nasa.gov/history/Apollo204/seamans3.html",
+      "fiabilidad": "alta"
+    }
+  ],
+  "fuera_de_dominio": true,
+  "telemetria_ilustrativa": [
+    {
+      "t_s": 0,
+      "fraccion_o2": 1.0,
+      "presion_kpa": 115.1
+    },
+    {
+      "t_s": 10,
+      "fraccion_o2": 1.0,
+      "presion_kpa": 115.1
+    },
+    {
+      "t_s": 17,
+      "fraccion_o2": 1.0,
+      "presion_kpa": 115.1
+    }
+  ]
+}

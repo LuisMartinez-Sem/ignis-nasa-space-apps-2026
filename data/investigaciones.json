@@ -1,0 +1,685 @@
+{
+  "version": "1.0",
+  "aviso": "Catálogo construido por IGNIS a partir del texto del reto y de anclas aportadas por el equipo. Los metadatos reales de PSI (O₂, flujo, presión por prueba) NO se han leído; se listan como campos no verificados. Rango null = desconocido.",
+  "fuente_principal": "Reto NASA Space Apps 2026 «Flame in Freefall» (texto oficial)",
+  "investigaciones": [
+    {
+      "id": "bass",
+      "nombre": "BASS",
+      "nombre_completo": "Burning and Suppression of Solids",
+      "familia": "solidos",
+      "combustible_tipos": [
+        "solido",
+        "gas"
+      ],
+      "combustible_detalle": "Materiales sólidos (telas, plásticos) y combustibles gaseosos",
+      "hardware": [
+        "MSG",
+        "SPICE flow duct"
+      ],
+      "instalacion": "Microgravity Science Glovebox (ISS)",
+      "objetivos": "Límites de flamabilidad de sólidos en microgravedad según O₂ y flujo; incluye supresión.",
+      "areas_seguridad": [
+        "prevencion",
+        "supresion"
+      ],
+      "o2_pct": {
+        "min": null,
+        "max": null
+      },
+      "flujo_cm_s": null,
+      "presion_kpa": null,
+      "gravedad": "microgravedad",
+      "datos_en_psi": null,
+      "campos_no_verificados": [
+        "o2_pct",
+        "flujo_cm_s",
+        "presion_kpa",
+        "datos_en_psi",
+        "supresion"
+      ],
+      "fuente": "Reto NASA Space Apps 2026 «Flame in Freefall» (texto oficial). Parámetros de las pruebas pendientes de los metadatos de PSI, aún no leídos por IGNIS"
+    },
+    {
+      "id": "bass-ii",
+      "nombre": "BASS-II",
+      "nombre_completo": "Burning and Suppression of Solids II",
+      "familia": "solidos",
+      "combustible_tipos": [
+        "solido",
+        "gas"
+      ],
+      "combustible_detalle": "Sólidos y gases (mismo conjunto modular de BASS)",
+      "hardware": [
+        "MSG",
+        "SPICE flow duct"
+      ],
+      "instalacion": "Microgravity Science Glovebox (ISS)",
+      "objetivos": "Continuación de BASS: flamabilidad de materiales sólidos en microgravedad.",
+      "areas_seguridad": [
+        "prevencion",
+        "supresion"
+      ],
+      "o2_pct": {
+        "min": null,
+        "max": null
+      },
+      "flujo_cm_s": null,
+      "presion_kpa": null,
+      "gravedad": "microgravedad",
+      "datos_en_psi": null,
+      "campos_no_verificados": [
+        "o2_pct",
+        "flujo_cm_s",
+        "presion_kpa",
+        "datos_en_psi",
+        "objetivos"
+      ],
+      "fuente": "Reto NASA Space Apps 2026 «Flame in Freefall» (texto oficial). Parámetros de las pruebas pendientes de los metadatos de PSI, aún no leídos por IGNIS"
+    },
+    {
+      "id": "spice",
+      "nombre": "SPICE",
+      "nombre_completo": "Smoke Point In Co-flow Experiment",
+      "familia": "gases",
+      "combustible_tipos": [
+        "gas"
+      ],
+      "combustible_detalle": "Llamas de difusión gaseosas en flujo coaxial (punto de humo)",
+      "hardware": [
+        "MSG",
+        "SPICE flow duct"
+      ],
+      "instalacion": "Microgravity Science Glovebox (ISS)",
+      "objetivos": "Comportamiento del hollín y punto de humo en llamas de difusión en microgravedad.",
+      "areas_seguridad": [
+        "deteccion"
+      ],
+      "o2_pct": {
+        "min": null,
+        "max": null
+      },
+      "flujo_cm_s": null,
+      "presion_kpa": null,
+      "gravedad": "microgravedad",
+      "datos_en_psi": null,
+      "campos_no_verificados": [
+        "o2_pct",
+        "flujo_cm_s",
+        "presion_kpa",
+        "datos_en_psi",
+        "objetivos",
+        "areas_seguridad"
+      ],
+      "fuente": "Reto NASA Space Apps 2026 «Flame in Freefall» (texto oficial). Parámetros de las pruebas pendientes de los metadatos de PSI, aún no leídos por IGNIS"
+    },
+    {
+      "id": "slice",
+      "nombre": "SLICE",
+      "nombre_completo": "Structure & Liftoff In Combustion Experiment",
+      "familia": "gases",
+      "combustible_tipos": [
+        "gas"
+      ],
+      "combustible_detalle": "Llamas de difusión gaseosas (estructura y despegue de la llama)",
+      "hardware": [
+        "MSG",
+        "SPICE flow duct"
+      ],
+      "instalacion": "Microgravity Science Glovebox (ISS)",
+      "objetivos": "Estructura y despegue de llamas de difusión en microgravedad.",
+      "areas_seguridad": [
+        "prevencion"
+      ],
+      "o2_pct": {
+        "min": null,
+        "max": null
+      },
+      "flujo_cm_s": null,
+      "presion_kpa": null,
+      "gravedad": "microgravedad",
+      "datos_en_psi": null,
+      "campos_no_verificados": [
+        "o2_pct",
+        "flujo_cm_s",
+        "presion_kpa",
+        "datos_en_psi",
+        "objetivos",
+        "areas_seguridad"
+      ],
+      "fuente": "Reto NASA Space Apps 2026 «Flame in Freefall» (texto oficial). Parámetros de las pruebas pendientes de los metadatos de PSI, aún no leídos por IGNIS"
+    },
+    {
+      "id": "saffire-i",
+      "nombre": "Saffire-I",
+      "nombre_completo": "Spacecraft Fire Safety Demonstration I",
+      "familia": "solidos",
+      "combustible_tipos": [
+        "solido"
+      ],
+      "combustible_detalle": "Material SIBAL (algodón/fibra de vidrio), muestra grande; flujos concurrente y opuesto",
+      "hardware": [
+        "Hardware Saffire"
+      ],
+      "instalacion": "Vehículo de carga no tripulado (no verificado)",
+      "objetivos": "Demostrar el comportamiento de un fuego a escala de nave en microgravedad.",
+      "areas_seguridad": [
+        "prevencion",
+        "deteccion"
+      ],
+      "o2_pct": {
+        "min": 21.7,
+        "max": 21.7
+      },
+      "flujo_cm_s": {
+        "min": 20.0,
+        "max": 20.0
+      },
+      "presion_kpa": {
+        "min": 101.3,
+        "max": 101.3
+      },
+      "gravedad": "microgravedad",
+      "datos_en_psi": true,
+      "campos_no_verificados": [
+        "areas_seguridad",
+        "flujo_cm_s",
+        "hardware",
+        "instalacion",
+        "o2_pct",
+        "objetivos",
+        "presion_kpa"
+      ],
+      "fuente": "Reto NASA Space Apps 2026 «Flame in Freefall» (texto oficial). O₂ 21,7 % y 101,3 kPa: ancla aportada por el equipo, no verificada en el NTRS ni por IGNIS",
+      "nota_o2": "21,7 % es la condición del ancla aportada por el equipo (no verificada en el NTRS)",
+      "nota_presion": "101,3 kPa es la condición del ancla aportada por el equipo (no verificada)"
+    },
+    {
+      "id": "saffire-ii",
+      "nombre": "Saffire-II",
+      "nombre_completo": "Spacecraft Fire Safety Demonstration II",
+      "familia": "solidos",
+      "combustible_tipos": [
+        "solido"
+      ],
+      "combustible_detalle": "Incluye silicona (ancla aportada por el equipo)",
+      "hardware": [
+        "Hardware Saffire"
+      ],
+      "instalacion": "Vehículo de carga no tripulado (no verificado)",
+      "objetivos": "Segundo experimento de escala de nave: comportamiento del fuego con más materiales.",
+      "areas_seguridad": [
+        "prevencion"
+      ],
+      "o2_pct": {
+        "min": null,
+        "max": null
+      },
+      "flujo_cm_s": null,
+      "presion_kpa": null,
+      "gravedad": "microgravedad",
+      "datos_en_psi": true,
+      "campos_no_verificados": [
+        "hardware",
+        "instalacion",
+        "objetivos",
+        "o2_pct",
+        "flujo_cm_s",
+        "areas_seguridad"
+      ],
+      "fuente": "Reto NASA Space Apps 2026 «Flame in Freefall» (texto oficial). Parámetros de las pruebas pendientes de los metadatos de PSI, aún no leídos por IGNIS"
+    },
+    {
+      "id": "saffire-iii",
+      "nombre": "Saffire-III",
+      "nombre_completo": "Spacecraft Fire Safety Demonstration III",
+      "familia": "solidos",
+      "combustible_tipos": [
+        "solido"
+      ],
+      "combustible_detalle": "Materiales sólidos de escala de nave",
+      "hardware": [
+        "Hardware Saffire"
+      ],
+      "instalacion": "Vehículo de carga no tripulado (no verificado)",
+      "objetivos": "Tercer experimento de escala de nave.",
+      "areas_seguridad": [
+        "prevencion"
+      ],
+      "o2_pct": {
+        "min": null,
+        "max": null
+      },
+      "flujo_cm_s": null,
+      "presion_kpa": null,
+      "gravedad": "microgravedad",
+      "datos_en_psi": null,
+      "campos_no_verificados": [
+        "hardware",
+        "instalacion",
+        "objetivos",
+        "o2_pct",
+        "flujo_cm_s",
+        "areas_seguridad",
+        "datos_en_psi"
+      ],
+      "fuente": "Reto NASA Space Apps 2026 «Flame in Freefall» (texto oficial). Parámetros de las pruebas pendientes de los metadatos de PSI, aún no leídos por IGNIS"
+    },
+    {
+      "id": "same",
+      "nombre": "SAME",
+      "nombre_completo": "Smoke and Aerosol Measurement Experiment",
+      "familia": "humo",
+      "combustible_tipos": [
+        "aerosol"
+      ],
+      "combustible_detalle": "Humo y aerosoles de combustión (sin combustible propio definido en el reto)",
+      "hardware": [
+        "Instrumento SAME"
+      ],
+      "instalacion": "ISS",
+      "objetivos": "Probar la detección de humo en microgravedad.",
+      "areas_seguridad": [
+        "deteccion"
+      ],
+      "o2_pct": {
+        "min": null,
+        "max": null
+      },
+      "flujo_cm_s": null,
+      "presion_kpa": null,
+      "gravedad": "microgravedad",
+      "datos_en_psi": null,
+      "campos_no_verificados": [
+        "o2_pct",
+        "flujo_cm_s",
+        "presion_kpa",
+        "datos_en_psi",
+        "hardware",
+        "instalacion",
+        "combustible_detalle"
+      ],
+      "fuente": "Reto NASA Space Apps 2026 «Flame in Freefall» (texto oficial). Parámetros de las pruebas pendientes de los metadatos de PSI, aún no leídos por IGNIS"
+    },
+    {
+      "id": "same-r",
+      "nombre": "SAME-R",
+      "nombre_completo": "Smoke and Aerosol Measurement Experiment - Reflight",
+      "familia": "humo",
+      "combustible_tipos": [
+        "aerosol"
+      ],
+      "combustible_detalle": "Humo y aerosoles de combustión",
+      "hardware": [
+        "Instrumento SAME"
+      ],
+      "instalacion": "ISS",
+      "objetivos": "Repetición de SAME para detección de humo en microgravedad.",
+      "areas_seguridad": [
+        "deteccion"
+      ],
+      "o2_pct": {
+        "min": null,
+        "max": null
+      },
+      "flujo_cm_s": null,
+      "presion_kpa": null,
+      "gravedad": "microgravedad",
+      "datos_en_psi": null,
+      "campos_no_verificados": [
+        "o2_pct",
+        "flujo_cm_s",
+        "presion_kpa",
+        "datos_en_psi",
+        "hardware",
+        "instalacion",
+        "combustible_detalle"
+      ],
+      "fuente": "Reto NASA Space Apps 2026 «Flame in Freefall» (texto oficial). Parámetros de las pruebas pendientes de los metadatos de PSI, aún no leídos por IGNIS"
+    },
+    {
+      "id": "daft",
+      "nombre": "DAFT",
+      "nombre_completo": "Dust and Aerosol Measurement Feasibility Test",
+      "familia": "humo",
+      "combustible_tipos": [
+        "aerosol"
+      ],
+      "combustible_detalle": "Polvo (mismo instrumento de SAME)",
+      "hardware": [
+        "Instrumento SAME"
+      ],
+      "instalacion": "ISS",
+      "objetivos": "Usar el instrumento de SAME para detectar polvo.",
+      "areas_seguridad": [
+        "deteccion"
+      ],
+      "o2_pct": {
+        "min": null,
+        "max": null
+      },
+      "flujo_cm_s": null,
+      "presion_kpa": null,
+      "gravedad": "microgravedad",
+      "datos_en_psi": null,
+      "campos_no_verificados": [
+        "o2_pct",
+        "flujo_cm_s",
+        "presion_kpa",
+        "datos_en_psi",
+        "instalacion"
+      ],
+      "fuente": "Reto NASA Space Apps 2026 «Flame in Freefall» (texto oficial). Parámetros de las pruebas pendientes de los metadatos de PSI, aún no leídos por IGNIS"
+    },
+    {
+      "id": "daft-2",
+      "nombre": "DAFT-2",
+      "nombre_completo": "Dust and Aerosol Measurement Feasibility Test 2",
+      "familia": "humo",
+      "combustible_tipos": [
+        "aerosol"
+      ],
+      "combustible_detalle": "Polvo (mismo instrumento de SAME)",
+      "hardware": [
+        "Instrumento SAME"
+      ],
+      "instalacion": "ISS",
+      "objetivos": "Segunda prueba de detección de polvo con el instrumento de SAME.",
+      "areas_seguridad": [
+        "deteccion"
+      ],
+      "o2_pct": {
+        "min": null,
+        "max": null
+      },
+      "flujo_cm_s": null,
+      "presion_kpa": null,
+      "gravedad": "microgravedad",
+      "datos_en_psi": null,
+      "campos_no_verificados": [
+        "o2_pct",
+        "flujo_cm_s",
+        "presion_kpa",
+        "datos_en_psi",
+        "instalacion"
+      ],
+      "fuente": "Reto NASA Space Apps 2026 «Flame in Freefall» (texto oficial). Parámetros de las pruebas pendientes de los metadatos de PSI, aún no leídos por IGNIS"
+    },
+    {
+      "id": "flex",
+      "nombre": "FLEX",
+      "nombre_completo": "Flame Extinguishment Experiment",
+      "familia": "gotas",
+      "combustible_tipos": [
+        "gota"
+      ],
+      "combustible_detalle": "Gotas de combustible líquido ardiendo",
+      "hardware": [
+        "MDCA",
+        "CIR"
+      ],
+      "instalacion": "Combustion Integrated Rack (ISS)",
+      "objetivos": "Extinción de llamas diluyendo la atmósfera con CO₂ y helio; llamas frías.",
+      "areas_seguridad": [
+        "supresion"
+      ],
+      "o2_pct": {
+        "min": null,
+        "max": null
+      },
+      "flujo_cm_s": null,
+      "presion_kpa": null,
+      "gravedad": "microgravedad",
+      "datos_en_psi": true,
+      "campos_no_verificados": [
+        "o2_pct",
+        "flujo_cm_s",
+        "presion_kpa"
+      ],
+      "fuente": "Reto NASA Space Apps 2026 «Flame in Freefall» (texto oficial). Parámetros de las pruebas pendientes de los metadatos de PSI, aún no leídos por IGNIS"
+    },
+    {
+      "id": "flex-2",
+      "nombre": "FLEX-2",
+      "nombre_completo": "Flame Extinguishment Experiment 2",
+      "familia": "gotas",
+      "combustible_tipos": [
+        "gota"
+      ],
+      "combustible_detalle": "Gotas de combustible líquido ardiendo",
+      "hardware": [
+        "MDCA",
+        "CIR"
+      ],
+      "instalacion": "Combustion Integrated Rack (ISS)",
+      "objetivos": "Continuación de FLEX sobre extinción.",
+      "areas_seguridad": [
+        "supresion"
+      ],
+      "o2_pct": {
+        "min": null,
+        "max": null
+      },
+      "flujo_cm_s": null,
+      "presion_kpa": null,
+      "gravedad": "microgravedad",
+      "datos_en_psi": null,
+      "campos_no_verificados": [
+        "o2_pct",
+        "flujo_cm_s",
+        "presion_kpa",
+        "datos_en_psi",
+        "objetivos"
+      ],
+      "fuente": "Reto NASA Space Apps 2026 «Flame in Freefall» (texto oficial). Parámetros de las pruebas pendientes de los metadatos de PSI, aún no leídos por IGNIS"
+    },
+    {
+      "id": "cfi",
+      "nombre": "CFI",
+      "nombre_completo": "Cool Flames Investigation",
+      "familia": "gotas",
+      "combustible_tipos": [
+        "gota"
+      ],
+      "combustible_detalle": "Gotas de combustible líquido (llamas frías)",
+      "hardware": [
+        "MDCA",
+        "CIR"
+      ],
+      "instalacion": "Combustion Integrated Rack (ISS)",
+      "objetivos": "Estudio de llamas frías: combustión de baja temperatura casi sin luz visible.",
+      "areas_seguridad": [
+        "deteccion",
+        "prevencion"
+      ],
+      "o2_pct": {
+        "min": null,
+        "max": null
+      },
+      "flujo_cm_s": null,
+      "presion_kpa": null,
+      "gravedad": "microgravedad",
+      "datos_en_psi": null,
+      "campos_no_verificados": [
+        "o2_pct",
+        "flujo_cm_s",
+        "presion_kpa",
+        "datos_en_psi",
+        "objetivos",
+        "areas_seguridad"
+      ],
+      "fuente": "Reto NASA Space Apps 2026 «Flame in Freefall» (texto oficial). Parámetros de las pruebas pendientes de los metadatos de PSI, aún no leídos por IGNIS"
+    },
+    {
+      "id": "acme-cfi-g",
+      "nombre": "ACME CFI-G",
+      "nombre_completo": "ACME - Cool Flames Investigation with Gases",
+      "familia": "gases",
+      "combustible_tipos": [
+        "gas"
+      ],
+      "combustible_detalle": "Mezcla de nitrógeno y gas inflamable (p. ej. propano); O₂-N₂ hasta 85 % O₂ por el quemador esférico",
+      "hardware": [
+        "ACME modular",
+        "CIR"
+      ],
+      "instalacion": "Combustion Integrated Rack (ISS)",
+      "objetivos": "Llamas frías con gases, con las mayores concentraciones de O₂ probadas en microgravedad.",
+      "areas_seguridad": [
+        "prevencion"
+      ],
+      "o2_pct": {
+        "min": null,
+        "max": 85.0
+      },
+      "flujo_cm_s": null,
+      "presion_kpa": null,
+      "gravedad": "microgravedad",
+      "datos_en_psi": null,
+      "campos_no_verificados": [
+        "datos_en_psi",
+        "flujo_cm_s",
+        "presion_kpa",
+        "areas_seguridad"
+      ],
+      "fuente": "Reto NASA Space Apps 2026 «Flame in Freefall» (texto oficial). O₂ máx. 85 % según el catálogo del equipo; sin contraste con PSI"
+    },
+    {
+      "id": "acme-bre",
+      "nombre": "ACME BRE",
+      "nombre_completo": "Burning Rate Emulator",
+      "familia": "gases",
+      "combustible_tipos": [
+        "gas"
+      ],
+      "combustible_detalle": "Combustible gaseoso que emula la tasa de quemado de un material",
+      "hardware": [
+        "ACME modular",
+        "CIR"
+      ],
+      "instalacion": "Combustion Integrated Rack (ISS)",
+      "objetivos": "Flamabilidad de materiales en atmósferas en reposo en función de sus propiedades.",
+      "areas_seguridad": [
+        "prevencion"
+      ],
+      "o2_pct": {
+        "min": null,
+        "max": null
+      },
+      "flujo_cm_s": null,
+      "presion_kpa": null,
+      "gravedad": "microgravedad",
+      "datos_en_psi": null,
+      "campos_no_verificados": [
+        "o2_pct",
+        "flujo_cm_s",
+        "presion_kpa",
+        "datos_en_psi",
+        "areas_seguridad"
+      ],
+      "fuente": "Reto NASA Space Apps 2026 «Flame in Freefall» (texto oficial). Parámetros de las pruebas pendientes de los metadatos de PSI, aún no leídos por IGNIS"
+    },
+    {
+      "id": "acme-efield",
+      "nombre": "ACME E-FIELD",
+      "nombre_completo": "Electric-Field Effects on Laminar Diffusion Flames",
+      "familia": "gases",
+      "combustible_tipos": [
+        "gas"
+      ],
+      "combustible_detalle": "Llamas de difusión laminares con campo eléctrico",
+      "hardware": [
+        "ACME modular",
+        "CIR"
+      ],
+      "instalacion": "Combustion Integrated Rack (ISS)",
+      "objetivos": "Imita gravedad parcial mediante el efecto del campo eléctrico sobre los iones de la llama.",
+      "areas_seguridad": [
+        "prevencion"
+      ],
+      "o2_pct": {
+        "min": null,
+        "max": null
+      },
+      "flujo_cm_s": null,
+      "presion_kpa": null,
+      "gravedad": "parcial_emulada",
+      "datos_en_psi": null,
+      "campos_no_verificados": [
+        "o2_pct",
+        "flujo_cm_s",
+        "presion_kpa",
+        "datos_en_psi",
+        "areas_seguridad"
+      ],
+      "fuente": "Reto NASA Space Apps 2026 «Flame in Freefall» (texto oficial). Parámetros de las pruebas pendientes de los metadatos de PSI, aún no leídos por IGNIS"
+    },
+    {
+      "id": "luci",
+      "nombre": "LUCI",
+      "nombre_completo": "Lunar-g Combustion Investigation",
+      "familia": "solidos",
+      "combustible_tipos": [
+        "solido"
+      ],
+      "combustible_detalle": "Por definir (inferido; no indicado en el reto)",
+      "hardware": [],
+      "instalacion": "Futuro (no indicado)",
+      "objetivos": "Combustión en gravedad lunar. El reto indica que sus datos se añadirán a PSI en el futuro.",
+      "areas_seguridad": [
+        "prevencion"
+      ],
+      "o2_pct": {
+        "min": null,
+        "max": null
+      },
+      "flujo_cm_s": null,
+      "presion_kpa": null,
+      "gravedad": "parcial_pendiente",
+      "datos_en_psi": false,
+      "campos_no_verificados": [
+        "combustible_tipos",
+        "combustible_detalle",
+        "hardware",
+        "instalacion",
+        "objetivos",
+        "areas_seguridad",
+        "o2_pct"
+      ],
+      "fuente": "Reto NASA Space Apps 2026 «Flame in Freefall» (texto oficial). Parámetros de las pruebas pendientes de los metadatos de PSI, aún no leídos por IGNIS"
+    },
+    {
+      "id": "fm2",
+      "nombre": "FM2",
+      "nombre_completo": "Flammability of Materials on the Moon",
+      "familia": "solidos",
+      "combustible_tipos": [
+        "solido"
+      ],
+      "combustible_detalle": "Materiales (inferido por el nombre)",
+      "hardware": [],
+      "instalacion": "Futuro (no indicado)",
+      "objetivos": "Flamabilidad de materiales en la Luna. El reto indica que sus datos se añadirán a PSI en el futuro.",
+      "areas_seguridad": [
+        "prevencion"
+      ],
+      "o2_pct": {
+        "min": null,
+        "max": null
+      },
+      "flujo_cm_s": null,
+      "presion_kpa": null,
+      "gravedad": "parcial_pendiente",
+      "datos_en_psi": false,
+      "campos_no_verificados": [
+        "combustible_tipos",
+        "combustible_detalle",
+        "hardware",
+        "instalacion",
+        "areas_seguridad",
+        "o2_pct"
+      ],
+      "fuente": "Reto NASA Space Apps 2026 «Flame in Freefall» (texto oficial). Parámetros de las pruebas pendientes de los metadatos de PSI, aún no leídos por IGNIS"
+    }
+  ]
+}

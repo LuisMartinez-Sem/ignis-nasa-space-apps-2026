@@ -1,0 +1,66 @@
+{
+  "id": "20261017-034026_c2b220e0",
+  "creado_utc": "2026-10-17T03:40:26.067556+00:00",
+  "origen": "sintetico",
+  "n_filas": 6000,
+  "sha256": "c2b220e07630c74798a6e55f4498f8c130aae1230ffd67b3edb739a8d7c8a860",
+  "archivo": "versiones/20261017-034026_c2b220e0/datos.csv",
+  "perfil": {
+    "n_filas": 6000,
+    "columnas": {
+      "fraccion_o2": {
+        "minimo": 0.16007546071458087,
+        "maximo": 0.39994368085944254,
+        "media": 0.27793302691823557,
+        "desviacion": 0.06911463018500906
+      },
+      "velocidad_flujo_cm_s": {
+        "minimo": 0.5000315231707224,
+        "maximo": 59.99339948945028,
+        "media": 12.5209282084747,
+        "desviacion": 14.809738041671562
+      },
+      "presion_kpa": {
+        "minimo": 35.0033578375942,
+        "maximo": 101.325,
+        "media": 68.76528655184957,
+        "desviacion": 19.408734842926187
+      },
+      "temperatura_ambiente_k": {
+        "minimo": 285.00067338308025,
+        "maximo": 319.99938709547837,
+        "media": 302.51035984531705,
+        "desviacion": 10.096070725909161
+      },
+      "espesor_combustible_mm": {
+        "minimo": 0.05000966559949558,
+        "maximo": 2.9994729970420075,
+        "media": 0.7195205969714826,
+        "desviacion": 0.7549430718758201
+      },
+      "velocidad_propagacion_mm_s": {
+        "minimo": 0.0,
+        "maximo": 14.35060917489137,
+        "media": 1.2479783120460257,
+        "desviacion": 2.018888718753211
+      }
+    },
+    "fraccion_propaga": 0.5303333333333333,
+    "por_material": {
+      "sibal": 2051,
+      "celulosa": 2002,
+      "pmma": 1947
+    },
+    "por_regimen": {
+      "opuesto": 3894,
+      "concurrente": 2106
+    },
+    "n_experimentos": null,
+    "huecos_de_cobertura": [
+      "'temperatura_ambiente_k' observada en [285, 320]: cubre solo 23 % del dominio operativo [250, 400]",
+      "'espesor_combustible_mm' observada en [0.05, 3]: cubre solo 30 % del dominio operativo [0.01, 10]"
+    ]
+  },
+  "mapeo": null,
+  "notas": "Sintético semi-empírico (n=6000, semilla=42); NO son datos NASA."
+}

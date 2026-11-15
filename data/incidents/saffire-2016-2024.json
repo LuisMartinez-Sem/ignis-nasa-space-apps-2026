@@ -1,0 +1,154 @@
+{
+  "id": "saffire-2016-2024",
+  "nombre": "Saffire I–VI (experimentos de fuego de NASA)",
+  "fecha": "2016–2024",
+  "lugar": "Cygnus en órbita, tras desacoplarse de la ISS",
+  "regimen_gravedad": "microgravedad",
+  "tipo": "validacion",
+  "es_incendio": false,
+  "resumen": "Seis experimentos controlados de NASA quemaron muestras grandes (SIBAL, PMMA, algodón) en microgravedad. Es la mejor referencia real disponible: aquí se compara lo que predice el modelo contra lo medido, y se muestra honestamente la brecha que los datos PSI deben cerrar.",
+  "modelo_aplicable": true,
+  "advertencia_modelo": "El modelo actual se entrenó con datos SINTÉTICOS sin calibrar. Las diferencias con Saffire miden la brecha a cerrar con datos PSI, no el desempeño final. Solo Saffire-I tiene una velocidad de propagación publicada en las fuentes consultadas.",
+  "duracion_simulacion_s": 10,
+  "supuestos_ignis": [
+    "Presión de cabina 101,3 kPa y T ambiente 295 K SUPUESTAS cuando la fuente no las da (Saffire-I a III).",
+    "Espesor del SIBAL (0,4 mm) y del algodón (0,5 mm) ESTIMADOS: no se encontraron en las fuentes consultadas.",
+    "Los valores medidos de Saffire-I provienen de una presentación (confianza media), no de un reporte NTRS verificado.",
+    "Saffire-II, III y VI: sin velocidades de propagación publicadas en las fuentes consultadas; solo se evalúa el modelo en sus condiciones."
+  ],
+  "experimentos": [
+    {
+      "nombre": "Saffire-I · flujo concurrente",
+      "condiciones": {
+        "fraccion_o2": 0.217, "velocidad_flujo_cm_s": 20.0, "presion_kpa": 101.3,
+        "temperatura_ambiente_k": 295.0, "espesor_combustible_mm": 0.4,
+        "material": "sibal", "regimen_flujo": "concurrente"
+      },
+      "supuestos": ["presión y temperatura supuestas", "espesor estimado"],
+      "medicion": {
+        "velocidad_propagacion_mm_s": 1.8, "confianza": "no_verificado", "fuente": 3,
+        "nota": "Presentación de Ferkul (alojada en UCL), no un reporte NTRS."
+      },
+      "fuente": 1
+    },
+    {
+      "nombre": "Saffire-I · flujo opuesto",
+      "condiciones": {
+        "fraccion_o2": 0.217, "velocidad_flujo_cm_s": 20.0, "presion_kpa": 101.3,
+        "temperatura_ambiente_k": 295.0, "espesor_combustible_mm": 0.4,
+        "material": "sibal", "regimen_flujo": "opuesto"
+      },
+      "supuestos": ["presión y temperatura supuestas", "espesor estimado"],
+      "medicion": {
+        "velocidad_propagacion_mm_s": 1.3, "confianza": "no_verificado", "fuente": 3,
+        "nota": "Presentación de Ferkul (alojada en UCL), no un reporte NTRS."
+      },
+      "fuente": 1
+    },
+    {
+      "nombre": "Saffire-II · SIBAL a 20 cm/s",
+      "condiciones": {
+        "fraccion_o2": 0.221, "velocidad_flujo_cm_s": 20.0, "presion_kpa": 101.3,
+        "temperatura_ambiente_k": 295.0, "espesor_combustible_mm": 0.4,
+        "material": "sibal", "regimen_flujo": "concurrente"
+      },
+      "supuestos": ["presión y temperatura supuestas", "espesor estimado", "régimen supuesto"],
+      "fuente": 4
+    },
+    {
+      "nombre": "Saffire-III · SIBAL a 30 cm/s",
+      "condiciones": {
+        "fraccion_o2": 0.217, "velocidad_flujo_cm_s": 30.0, "presion_kpa": 101.3,
+        "temperatura_ambiente_k": 295.0, "espesor_combustible_mm": 0.4,
+        "material": "sibal", "regimen_flujo": "concurrente"
+      },
+      "supuestos": ["O2, presión y temperatura supuestas", "espesor estimado"],
+      "fuente": 1
+    },
+    {
+      "nombre": "Saffire-IV · SIBAL (50 cm)",
+      "condiciones": {
+        "fraccion_o2": 0.220, "velocidad_flujo_cm_s": 20.0, "presion_kpa": 100.0,
+        "temperatura_ambiente_k": 295.0, "espesor_combustible_mm": 0.4,
+        "material": "sibal", "regimen_flujo": "concurrente"
+      },
+      "supuestos": ["temperatura supuesta", "espesor estimado"],
+      "fuente": 5
+    },
+    {
+      "nombre": "Saffire-IV · PMMA de 2 caras (1 cm)",
+      "condiciones": {
+        "fraccion_o2": 0.220, "velocidad_flujo_cm_s": 20.0, "presion_kpa": 100.0,
+        "temperatura_ambiente_k": 295.0, "espesor_combustible_mm": 10.0,
+        "material": "pmma", "regimen_flujo": "concurrente"
+      },
+      "supuestos": ["temperatura supuesta"],
+      "fuente": 5
+    },
+    {
+      "nombre": "Saffire-V · algodón jersey (50 cm)",
+      "condiciones": {
+        "fraccion_o2": 0.258, "velocidad_flujo_cm_s": 20.0, "presion_kpa": 71.6,
+        "temperatura_ambiente_k": 295.0, "espesor_combustible_mm": 0.5,
+        "material": "celulosa", "regimen_flujo": "concurrente"
+      },
+      "supuestos": ["O2 y presión: punto medio de 25,4–26,2 % y 70,7–72,6 kPa", "temperatura supuesta", "espesor estimado"],
+      "fuente": 5
+    },
+    {
+      "nombre": "Saffire-V · PMMA de 1 cara (0,5 cm)",
+      "condiciones": {
+        "fraccion_o2": 0.258, "velocidad_flujo_cm_s": 20.0, "presion_kpa": 71.6,
+        "temperatura_ambiente_k": 295.0, "espesor_combustible_mm": 5.0,
+        "material": "pmma", "regimen_flujo": "concurrente"
+      },
+      "supuestos": ["O2 y presión: punto medio de los rangos", "temperatura supuesta"],
+      "fuente": 5
+    }
+  ],
+  "fuentes": [
+    {
+      "id": 1,
+      "titulo": "Saffire experiment overview (Ruff & Urban)",
+      "organizacion": "NASA NTRS 20170002628",
+      "url": "https://ntrs.nasa.gov/api/citations/20170002628/downloads/20170002628.pdf",
+      "fiabilidad": "alta"
+    },
+    {
+      "id": 2,
+      "titulo": "Results of Large-Scale Spacecraft Flammability Tests (ICES 2017)",
+      "organizacion": "NASA NTRS 20170008805",
+      "url": "https://ntrs.nasa.gov/citations/20170008805",
+      "fiabilidad": "alta"
+    },
+    {
+      "id": 3,
+      "titulo": "The Saffire Experiment (Ferkul, 2017 US National Combustion Meeting)",
+      "organizacion": "UCL Discovery (presentación)",
+      "url": "https://discovery-pp.ucl.ac.uk/id/eprint/10069823/8/Ferkul_The_Saffire_Experiment_2017_US_National_Meeting_Final.pdf",
+      "fiabilidad": "media",
+      "nota": "Fuente de 1,8 y 1,3 mm/s. No es un documento NTRS."
+    },
+    {
+      "id": 4,
+      "titulo": "Saffire-II samples",
+      "organizacion": "NASA NTRS 20160010292",
+      "url": "https://ntrs.nasa.gov/api/citations/20160010292/downloads/20160010292.pdf",
+      "fiabilidad": "alta"
+    },
+    {
+      "id": 5,
+      "titulo": "Saffire-IV and V results (ICES-2021-266)",
+      "organizacion": "NASA NTRS 20210011521",
+      "url": "https://ntrs.nasa.gov/api/citations/20210011521/downloads/ICES%202021-266%200503-2021%20final.pdf",
+      "fiabilidad": "alta"
+    },
+    {
+      "id": 6,
+      "titulo": "Flame burns out on NASA's long-running spacecraft fire experiment (Saffire-VI)",
+      "organizacion": "NASA",
+      "url": "https://www.nasa.gov/humans-in-space/flame-burns-out-on-nasas-long-running-spacecraft-fire-experiment/",
+      "fiabilidad": "alta"
+    }
+  ]
+}

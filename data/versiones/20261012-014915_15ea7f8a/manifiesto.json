@@ -1,0 +1,65 @@
+{
+  "id": "20261012-014915_15ea7f8a",
+  "creado_utc": "2026-10-12T01:49:15.574215+00:00",
+  "origen": "sintetico",
+  "n_filas": 6000,
+  "sha256": "15ea7f8a76466b5898b5e10a8a40c51968e6591cfbccfd15fc00ee03ee113e0d",
+  "archivo": "versiones/20261012-014915_15ea7f8a/datos.csv",
+  "perfil": {
+    "n_filas": 6000,
+    "columnas": {
+      "fraccion_o2": {
+        "minimo": 0.1401131910718713,
+        "maximo": 0.4999155212891638,
+        "media": 0.31810858417031046,
+        "desviacion": 0.1037735543465736
+      },
+      "velocidad_flujo_cm_s": {
+        "minimo": 0.5000315231707224,
+        "maximo": 59.99339948945028,
+        "media": 12.410244742300057,
+        "desviacion": 14.87077022214467
+      },
+      "presion_kpa": {
+        "minimo": 50.00303762164572,
+        "maximo": 109.99683544727202,
+        "media": 80.19631596077167,
+        "desviacion": 17.35882969417944
+      },
+      "temperatura_ambiente_k": {
+        "minimo": 285.00067338308025,
+        "maximo": 319.99938709547837,
+        "media": 302.6214146907332,
+        "desviacion": 10.111523766714056
+      },
+      "espesor_combustible_mm": {
+        "minimo": 0.05000966559949558,
+        "maximo": 2.9994729970420075,
+        "media": 0.7235727486542932,
+        "desviacion": 0.7591521722298977
+      },
+      "velocidad_propagacion_mm_s": {
+        "minimo": 0.0,
+        "maximo": 47.61670149311569,
+        "media": 4.453771758228504,
+        "desviacion": 6.369606457757351
+      }
+    },
+    "fraccion_propaga": 0.6823333333333333,
+    "por_material": {
+      "celulosa": 2022,
+      "sibal": 2001,
+      "pmma": 1977
+    },
+    "por_regimen": {
+      "opuesto": 3908,
+      "concurrente": 2092
+    },
+    "n_experimentos": null,
+    "huecos_de_cobertura": [
+      "'fraccion_o2' solo llega a 0.50; la API acepta hasta 1.0"
+    ]
+  },
+  "mapeo": null,
+  "notas": "Sintético semi-empírico (n=6000, semilla=42); NO son datos NASA."
+}

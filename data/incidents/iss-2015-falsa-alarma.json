@@ -1,0 +1,107 @@
+{
+  "id": "iss-2015-falsa-alarma",
+  "nombre": "ISS 2015: falsa alarma de amoníaco",
+  "fecha": "2015-01-14",
+  "lugar": "Estación Espacial Internacional, Nodo 2 (segmento estadounidense)",
+  "regimen_gravedad": "microgravedad",
+  "tipo": "falsa_alarma",
+  "es_incendio": false,
+  "resumen": "La telemetría indicó una posible fuga de amoníaco en el Nodo 2; la tripulación evacuó el segmento estadounidense. Fue un falso positivo causado por una indicación errónea de un multiplexor. NO fue un incendio ni humo: se usa como análogo del problema que IGNIS debe resolver, discriminar un pico aislado de un evento real.",
+  "modelo_aplicable": true,
+  "advertencia_modelo": "El evento real fue de amoníaco, fuera del alcance de IGNIS (fuego). La simulación muestra el PRINCIPIO de discriminación (consenso multicanal + persistencia) sobre un pico sintético de un solo sensor.",
+  "duracion_simulacion_s": 30,
+  "inicio_evento_s": 10,
+  "traza_detector": {
+    "tipo": "artefacto",
+    "semilla": 0
+  },
+  "condiciones_base": {
+    "fraccion_o2": 0.21,
+    "velocidad_flujo_cm_s": 10.0,
+    "presion_kpa": 101.3,
+    "temperatura_ambiente_k": 295.0,
+    "espesor_combustible_mm": 0.3,
+    "material": "sibal",
+    "regimen_flujo": "opuesto"
+  },
+  "timeline_humano": [
+    {
+      "t_s": 0,
+      "accion": "La telemetría indica una posible fuga de amoníaco en el Nodo 2 (03:58 CST)",
+      "resultado": "",
+      "categoria": "deteccion",
+      "confianza": "documentado",
+      "fuente": 1
+    },
+    {
+      "t_s": null,
+      "accion": "La tripulación ejecuta los procedimientos de emergencia y se refugia en el segmento ruso",
+      "resultado": "",
+      "categoria": "respuesta",
+      "confianza": "documentado",
+      "fuente": 1
+    },
+    {
+      "t_s": null,
+      "accion": "Se apagan el Loop B del control térmico externo y equipos de Nodo 2/3, JEM y Columbus",
+      "resultado": "Interrupción de operaciones científicas y de soporte.",
+      "categoria": "respuesta",
+      "confianza": "documentado",
+      "fuente": 1
+    },
+    {
+      "t_s": null,
+      "accion": "Causa raíz: indicación errónea del multiplexor Node 2-2 MDM",
+      "resultado": "Se reinició el MDM y la telemetría volvió a límites normales.",
+      "categoria": "resolucion",
+      "confianza": "documentado",
+      "fuente": 1
+    },
+    {
+      "t_s": 36480,
+      "accion": "La tripulación reingresa al segmento con máscaras (~14:06 CST, ≈10 h después)",
+      "resultado": "No se encontró amoníaco.",
+      "categoria": "resolucion",
+      "confianza": "aproximado",
+      "fuente": 1
+    }
+  ],
+  "ventana_humana_s": [
+    36480,
+    36480
+  ],
+  "ventana_nota": "Interrupción documentada: de 03:58 a ~14:06 CST (≈10 h 8 min).",
+  "supuestos_ignis": [
+    "El evento real fue de amoníaco; aquí se usa una traza SINTÉTICA con picos de un solo sensor como análogo.",
+    "IGNIS no puede (ni pretende) resolver fugas de amoníaco: ilustra la discriminación de falsos positivos.",
+    "Los porcentajes de falsas alarmas se calculan en vivo sobre 200 secuencias sintéticas, no sobre datos de la ISS."
+  ],
+  "fuentes": [
+    {
+      "id": 1,
+      "titulo": "ISS Daily Summary Report — 01/14/15",
+      "organizacion": "NASA Space Station Blog",
+      "url": "https://www.nasa.gov/blogs/stationreport/2015/01/14/iss-daily-summary-report-01-14-15/",
+      "fiabilidad": "alta",
+      "nota": "Verificado: alerta 3:58 CST, causa Node 2-2 MDM, reingreso ~2:06 pm CST."
+    }
+  ],
+  "fuera_de_dominio": false,
+  "telemetria_ilustrativa": [
+    {
+      "t_s": 0,
+      "fraccion_o2": 0.21,
+      "presion_kpa": 101.3
+    },
+    {
+      "t_s": 10,
+      "fraccion_o2": 0.21,
+      "presion_kpa": 101.3
+    },
+    {
+      "t_s": 30,
+      "fraccion_o2": 0.21,
+      "presion_kpa": 101.3
+    }
+  ]
+}
