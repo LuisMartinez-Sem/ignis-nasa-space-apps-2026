@@ -1,0 +1,16 @@
+{
+  "name": "ignis-frontend",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "description": "Dependencias de BUILD del HUD de IGNIS. El resultado (vendor/ y assets/fonts/) se versiona para que la demo funcione sin internet.",
+  "scripts": {
+    "vendor": "node vendor/construir.mjs"
+  },
+  "devDependencies": {
+    "@fontsource/inter": "5.3.0",
+    "@fontsource/jetbrains-mono": "5.3.0",
+    "esbuild": "0.28.2",
+    "three": "0.186.1"
+  }
+}

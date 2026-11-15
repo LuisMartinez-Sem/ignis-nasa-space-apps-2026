@@ -1,0 +1,401 @@
+/* IGNIS — componentes del HUD. Todo el acento sale de --acento (cambia con el nivel). */
+
+/* ---- Barra superior ---- */
+.barra {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--linea);
+  background: linear-gradient(180deg, rgba(16, 23, 38, 0.9), rgba(10, 14, 23, 0));
+}
+.marca { display: flex; align-items: center; gap: 12px; }
+.marca-logo { color: var(--acento); flex: none; }
+.marca-nombre {
+  font: 700 22px/1 var(--fuente-datos);
+  letter-spacing: 0.32em;
+}
+.marca-sub {
+  margin-top: 4px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--texto-3);
+}
+.barra-estado { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+.reloj { font: 500 13px var(--fuente-datos); color: var(--texto-2); letter-spacing: 0.08em; }
+.reloj-et { color: var(--texto-3); }
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px;
+  border: 1px solid var(--linea-fuerte);
+  border-radius: 999px;
+  font: 500 11px/1 var(--fuente-datos);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--texto-2);
+}
+.chip::before {
+  content: "";
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.chip[data-estado="conectado"] { color: var(--cian); }
+.chip[data-estado="conectado"]::before { animation: pulso-punto 1.6s ease-in-out infinite; }
+.chip[data-estado="conectando"] { color: var(--ambar); }
+.chip[data-estado="desconectado"] { color: var(--rojo); }
+.chip-datos::before { display: none; }
+.chip-datos[data-origen="sintetico"] { color: var(--ambar); border-color: rgba(255, 179, 71, 0.45); }
+.chip-datos[data-origen="real"] { color: var(--cian); }
+
+/* ---- Paneles (esquinas tipo consola de misión) ---- */
+.panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  padding: 16px;
+  background: linear-gradient(180deg, var(--panel), var(--fondo-2));
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+}
+.panel::before, .panel::after {
+  content: "";
+  position: absolute;
+  width: 12px; height: 12px;
+  border: 1px solid var(--acento);
+  pointer-events: none;
+}
+.panel::before { top: -1px; left: -1px; border-right: 0; border-bottom: 0; }
+.panel::after { bottom: -1px; right: -1px; border-left: 0; border-top: 0; }
+
+.panel-titulo {
+  font: 500 11px/1 var(--fuente-datos);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--texto-2);
+}
+.panel-cabecera { display: flex; align-items: center; justify-content: space-between; }
+.etiqueta {
+  padding: 3px 7px;
+  border: 1px solid var(--linea-fuerte);
+  border-radius: 2px;
+  font: 500 10px/1 var(--fuente-datos);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--texto-3);
+}
+
+/* ---- Telemetría ---- */
+.datos { display: grid; gap: 2px; }
+.dato {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(79, 209, 255, 0.07);
+}
+.dato dt { font-size: 12px; color: var(--texto-2); }
+.dato dd { font: 500 16px var(--fuente-datos); font-variant-numeric: tabular-nums; }
+.unidad { margin-left: 5px; font-size: 11px; font-weight: 400; color: var(--texto-3); }
+
+/* ---- Medidores ---- */
+.medidores { display: grid; gap: 14px; }
+.medidor-cabecera {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: 12px;
+  color: var(--texto-2);
+}
+.medidor-cabecera .mono { color: var(--texto); font-size: 13px; font-variant-numeric: tabular-nums; }
+.medidor {
+  height: 6px;
+  background: rgba(79, 209, 255, 0.1);
+  border-radius: 1px;
+  overflow: hidden;
+}
+.medidor-relleno {
+  width: 0;
+  height: 100%;
+  background: var(--acento);
+  transition: width var(--transicion);
+}
+/* La llama fría siempre es cian: es "invisible" y no debe leerse como fuego visible */
+.medidor-fria .medidor-relleno { background: var(--cian); }
+
+/* ---- Núcleo ---- */
+.panel-nucleo { align-items: center; }
+.panel-nucleo .panel-titulo { align-self: flex-start; }
+.nucleo {
+  position: relative;
+  width: min(100%, 68vh, 640px);
+  aspect-ratio: 1;
+  margin: auto;
+}
+.nucleo-lienzo { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.lectura {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  pointer-events: none;
+}
+.lectura-etiqueta {
+  font: 500 11px/1 var(--fuente-datos);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--texto-2);
+}
+.lectura-numero {
+  font: 700 clamp(64px, 17cqw, 132px) / 1 var(--fuente-datos);
+  font-variant-numeric: tabular-nums;
+  color: var(--acento);
+  text-shadow: 0 0 28px color-mix(in srgb, var(--acento) 55%, transparent);
+}
+.nucleo { container-type: inline-size; }
+.lectura-nivel {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font: 700 clamp(14px, 3.6cqw, 22px) / 1 var(--fuente-datos);
+  letter-spacing: 0.3em;
+  color: var(--acento);
+}
+/* Forma además de color: el nivel no depende solo del tono (daltonismo) */
+.lectura-nivel::before { content: "●"; font-size: 0.8em; }
+body[data-nivel="PRECAUCION"] .lectura-nivel::before { content: "▲"; }
+body[data-nivel="ALERTA"] .lectura-nivel::before { content: "◆"; }
+body[data-nivel="CRITICO"] .lectura-nivel::before { content: "✕"; }
+
+/* ---- Copiloto ---- */
+.fria {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  font-size: 13px;
+  color: var(--texto-2);
+}
+.fria-punto {
+  flex: none;
+  width: 8px; height: 8px;
+  margin-top: 5px;
+  border-radius: 50%;
+  border: 1px dashed currentColor;
+}
+.fria[data-estado="POSIBLE"], .fria[data-estado="PROBABLE"] {
+  color: var(--cian);
+  border-color: rgba(79, 209, 255, 0.5);
+  background: rgba(79, 209, 255, 0.06);
+}
+.fria[data-estado="PROBABLE"] .fria-punto { animation: pulso-punto 1.4s ease-in-out infinite; background: var(--cian); }
+
+.acciones { display: grid; gap: 8px; }
+.acciones li {
+  padding: 9px 12px;
+  border-left: 2px solid var(--acento);
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 13px;
+  animation: entrada-accion 450ms var(--transicion) both;
+}
+.vacio, .descargo { font-size: 12px; color: var(--texto-3); }
+.vacio[hidden], .aviso[hidden] { display: none; }
+.aviso {
+  padding: 9px 12px;
+  border: 1px solid rgba(255, 179, 71, 0.4);
+  border-radius: var(--radio);
+  font-size: 12px;
+  color: var(--ambar);
+}
+.descargo { margin-top: auto; padding-top: 4px; }
+
+/* ---- Simulador ---- */
+.segmentos { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--linea-fuerte); border-radius: var(--radio); overflow: hidden; }
+.segmento {
+  padding: 9px 0;
+  background: transparent;
+  border: 0;
+  color: var(--texto-2);
+  font: 500 12px var(--fuente-datos);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background var(--transicion), color var(--transicion);
+}
+.segmento + .segmento { border-left: 1px solid var(--linea-fuerte); }
+.segmento:hover { color: var(--texto); }
+.segmento[aria-pressed="true"] { background: color-mix(in srgb, var(--acento) 18%, transparent); color: var(--acento); }
+
+.manual { display: grid; gap: 12px; }
+.manual[hidden] { display: none; }
+.control {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 8px;
+  font-size: 12px;
+  color: var(--texto-2);
+}
+.control input[type="range"] { grid-column: 1 / -1; width: 100%; accent-color: var(--acento); }
+.control output { color: var(--texto); font-size: 13px; }
+.casilla { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--texto-2); }
+.casilla input { accent-color: var(--cian); }
+.error { min-height: 1.2em; font-size: 12px; color: var(--rojo); }
+
+/* ---- Pie: historial ---- */
+.pie { padding: 0 20px 16px; display: grid; gap: 8px; }
+.pie-lienzo { width: 100%; height: 64px; display: block; border: 1px solid var(--linea); border-radius: var(--radio); background: rgba(16, 23, 38, 0.6); }
+
+/* ======================= v3: pestañas, botones, gemelo, detector, copiloto ======================= */
+.pestanas { display: flex; gap: 4px; padding: 3px; border: 1px solid var(--linea-fuerte); border-radius: var(--radio); }
+.pestana {
+  padding: 8px 18px;
+  background: transparent; border: 0; border-radius: 3px;
+  color: var(--texto-2);
+  font: 500 12px var(--fuente-datos); letter-spacing: 0.14em; text-transform: uppercase;
+  cursor: pointer;
+  transition: background var(--transicion), color var(--transicion);
+}
+.pestana:hover { color: var(--texto); }
+.pestana[aria-selected="true"] { background: color-mix(in srgb, var(--acento) 20%, transparent); color: var(--acento); }
+
+.chip-boton { background: transparent; cursor: pointer; }
+.chip-boton::before { display: none; }
+.chip-boton[aria-pressed="true"] { color: var(--cian); border-color: var(--cian); }
+.chip-boton:hover { color: var(--texto); }
+
+.boton {
+  padding: 7px 12px;
+  background: rgba(79, 209, 255, 0.08);
+  border: 1px solid var(--linea-fuerte); border-radius: var(--radio);
+  color: var(--cian);
+  font: 500 11px var(--fuente-datos); letter-spacing: 0.1em; text-transform: uppercase;
+  cursor: pointer;
+}
+.boton:hover { background: rgba(79, 209, 255, 0.16); }
+select {
+  padding: 6px 8px;
+  background: var(--fondo-2); color: var(--texto);
+  border: 1px solid var(--linea-fuerte); border-radius: var(--radio);
+  font: 500 12px var(--fuente-datos);
+}
+.segmentos-chicos { grid-template-columns: repeat(3, auto); }
+.segmentos-chicos .segmento { padding: 6px 12px; font-size: 11px; }
+
+/* ---- Gemelo digital ---- */
+.gemelo { position: relative; flex: none; height: clamp(420px, 74vh, 780px); border-radius: var(--radio); overflow: hidden; background: #070a12; border: 1px solid var(--linea); }
+.gemelo-lienzo { position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: grab; touch-action: none; }
+.gemelo-lienzo:active { cursor: grabbing; }
+.gemelo-nota {
+  position: absolute; left: 12px; bottom: 12px; max-width: 60%;
+  padding: 6px 10px; border: 1px solid var(--linea); border-radius: var(--radio);
+  background: rgba(10, 14, 23, 0.72); backdrop-filter: blur(4px);
+  font-size: 12px; color: var(--texto-2); pointer-events: none;
+}
+.gemelo-nota strong { color: var(--cian); font-weight: 600; }
+.boton-flotante { position: absolute; right: 12px; bottom: 12px; background: rgba(10, 14, 23, 0.72); }
+.gemelo-fallback { position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; text-align: center; color: var(--ambar); font-size: 13px; }
+.gemelo-fallback[hidden] { display: none; }
+body[data-vision="ir"] .gemelo { border-color: rgba(139, 92, 246, 0.5); }
+.divisor { position: absolute; inset: 0; pointer-events: none; }
+.divisor[hidden] { display: none; }
+.divisor::before { /* línea vertical en la posición --division */
+  content: ""; position: absolute; top: 0; bottom: 0; left: var(--division, 50%);
+  width: 2px; background: var(--ambar); box-shadow: 0 0 12px var(--ambar);
+}
+.divisor input { position: absolute; left: 4%; right: 4%; top: 12px; width: 92%; pointer-events: auto; accent-color: var(--ambar); }
+.divisor-rotulo {
+  position: absolute; top: 40px; padding: 3px 7px;
+  font: 700 11px var(--fuente-datos); letter-spacing: 0.16em;
+  background: rgba(10, 14, 23, 0.8); border: 1px solid var(--linea-fuerte); border-radius: 2px;
+}
+.divisor-rotulo-ir { left: 14px; color: #b79bff; }
+.divisor-rotulo-vis { right: 14px; color: var(--ambar); }
+
+/* ---- Detector temporal ---- */
+.detector-estado { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border: 1px solid var(--linea); border-radius: var(--radio); font-size: 13px; color: var(--texto-2); }
+.detector-punto { flex: none; width: 9px; height: 9px; border-radius: 50%; background: currentColor; }
+.detector-estado[data-estado="nominal"] { color: var(--cian); }
+.detector-estado[data-estado="vigilando"] { color: var(--ambar); border-color: rgba(255, 179, 71, 0.45); }
+.detector-estado[data-estado="alarma"] { color: var(--rojo); border-color: var(--rojo); background: rgba(255, 59, 59, 0.08); font-weight: 600; }
+.detector-estado[data-estado="alarma"] .detector-punto { animation: pulso-punto 0.7s ease-in-out infinite; }
+.detector-lienzo { width: 100%; height: 76px; display: block; border: 1px solid var(--linea); border-radius: var(--radio); background: rgba(7, 10, 18, 0.7); }
+.detector-datos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.detector-datos div { display: grid; gap: 2px; }
+.detector-datos dt { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--texto-3); }
+.detector-datos dd { font-size: 13px; font-variant-numeric: tabular-nums; }
+.control-selector { grid-template-columns: 1fr; }
+.control-selector select { width: 100%; }
+
+/* ---- Copiloto v3 ---- */
+.copiloto-resumen { font-size: 13px; color: var(--texto); }
+.factores { display: grid; gap: 7px; }
+.factor { display: grid; grid-template-columns: 1fr 70px 44px; align-items: center; gap: 8px; font-size: 12px; color: var(--texto-2); }
+.factor-barra { height: 5px; background: rgba(79, 209, 255, 0.1); border-radius: 1px; overflow: hidden; }
+.factor-barra span { display: block; height: 100%; background: var(--cian); transition: width var(--transicion); }
+.factor[data-direccion="sube"] .factor-barra span { background: var(--ambar); }
+.factor .mono { text-align: right; color: var(--texto); }
+.motores-nota { font-size: 11px; color: var(--texto-3); }
+.motores-nota[data-acuerdo="false"] { color: var(--ambar); }
+.avisos { display: grid; gap: 6px; }
+.avisos[hidden] { display: none; }
+.avisos li { padding: 7px 10px; border: 1px solid rgba(255, 179, 71, 0.4); border-radius: var(--radio); font-size: 12px; color: var(--ambar); }
+.selector-motor select { padding: 3px 6px; font-size: 11px; }
+
+/* Notas de verificación y limitaciones: ocultas por defecto para no saturar el HUD; el botón «Notas» (cabecera) las muestra. */
+body:not(.ver-notas) .descargo,
+body:not(.ver-notas) #aviso-datos,
+body:not(.ver-notas) #inv-mapa-aviso,
+body:not(.ver-notas) #inv-pareto-aviso,
+body:not(.ver-notas) .inv-avisos { display: none; }
+/* La etiqueta «Validación pendiente» no ocupa la cabecera; si hay un validador registrado, sí se muestra. */
+.chip-validacion[data-estado="pendiente"] { display: none; }
+
+/* ---- Monitor: orden por jerarquía (índice y telemetría | gemelo + controles | detector y copiloto) ---- */
+.columna-centro { display: grid; gap: 16px; align-content: start; min-width: 0; }
+.columna-centro .panel-gemelo { min-height: clamp(420px, 56vh, 640px); }
+.nota-latente { margin: 8px 0 0; text-align: center; font-size: 12px; line-height: 1.5; color: var(--texto-2); }
+.nota-latente[hidden] { display: none; }
+.panel-nucleo .nucleo { width: min(100%, 300px); }
+.escenarios { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 4px 0 10px; }
+.escenarios-et { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--texto-3); margin-right: 4px; }
+.escenarios .boton[aria-pressed="true"] { color: var(--ambar); border-color: var(--ambar); }
+.hw-mini { display: flex; align-items: center; gap: 8px; padding: 8px 10px; margin-bottom: 10px; border: 1px solid var(--linea); border-radius: var(--radio); font-size: 12px; color: var(--texto-2); }
+.hw-mini #hw-mini-texto { flex: 1; min-width: 0; }
+.hw-mini-punto { width: 9px; height: 9px; border-radius: 50%; background: var(--texto-3); flex: none; }
+.hw-mini-punto[data-estado="conectado"] { background: var(--cian); box-shadow: 0 0 8px var(--cian); }
+.hw-mini-punto[data-estado="conectando"] { background: var(--ambar); }
+.hw-mini-punto[data-estado="desconectado"] { background: var(--rojo); }
+.columna-centro .panel-simulador .manual { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px 18px; }
+.columna-centro .panel-simulador .manual .error, .columna-centro .panel-simulador .manual .casilla { grid-column: 1 / -1; }
+@media (max-width: 1180px) {
+  .columna-centro { grid-column: 1 / -1; order: -1; }
+}
+
+
+/* Panel de hardware (columna izquierda del Monitor) y atmósfera en contexto (derecha) */
+.panel-hardware { display: grid; gap: 8px; align-content: start; }
+.hw-estado { margin: 0; font-size: 12px; color: var(--texto-2); }
+.hw-cifras { display: flex; flex-wrap: wrap; gap: 6px; }
+.hw-lienzo { width: 100%; height: 90px; background: #070b13; border: 1px solid var(--linea); border-radius: var(--radio); display: block; }
+.ctx-barras { display: grid; gap: 10px; }
+.ctx-fila { display: grid; grid-template-columns: 1fr auto; gap: 3px 8px; font-size: 12px; color: var(--texto-2); }
+.ctx-barra { grid-column: 1 / -1; display: block; height: 6px; border-radius: 3px; background: rgba(255, 255, 255, .08); overflow: hidden; }
+.ctx-barra > span { display: block; height: 100%; background: var(--acento, var(--cian)); transition: width .4s ease; }
+.ctx-fila:nth-child(2) .ctx-barra > span { background: var(--texto-3); }
+.ctx-datos { margin: 10px 0 6px; font-size: 12px; color: var(--texto-2); }
+.ctx-region { margin: 0; padding: 8px 10px; font-size: 12px; line-height: 1.5; border-left: 3px solid var(--cian); background: rgba(255, 255, 255, .03); color: var(--texto); }
+.ctx-region[data-region="lunar"] { border-left-color: var(--ambar); }
+.ctx-region[data-region="fuera"] { border-left-color: var(--rojo); }

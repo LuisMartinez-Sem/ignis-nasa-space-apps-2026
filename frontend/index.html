@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IGNIS — Copiloto de seguridad contra incendios</title>
+  <meta name="description" content="IGNIS: IA y gemelo digital para detectar llamas frías y reducir el riesgo de incendio en microgravedad.">
+  <meta name="color-scheme" content="dark">
+  <!-- Todo es del mismo origen: Three.js y fuentes están vendorizados (la demo funciona offline) -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self' ws: wss:; base-uri 'none'; form-action 'none'">
+  <link rel="preload" href="assets/fonts/jetbrains-mono-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%230a0e17' stroke='%23ffb347' stroke-width='3'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%234fd1ff'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/hud.css">
+  <link rel="stylesheet" href="css/incidents.css">
+  <link rel="stylesheet" href="css/investigaciones.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body data-nivel="NOMINAL" data-vista="monitor">
+  <a class="saltar" href="#vista-monitor">Saltar al monitor</a>
+  <!-- Región viva: solo anuncia cambios de nivel y alarmas (no cada tick) -->
+  <div id="anuncio" class="sr-only" role="status" aria-live="polite"></div>
+
+  <header class="barra">
+    <div class="marca">
+      <svg class="marca-logo" viewBox="0 0 32 32" width="30" height="30" aria-hidden="true" focusable="false">
+        <circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" stroke-width="1" opacity=".3"/>
+        <circle cx="16" cy="16" r="10" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"/>
+        <circle cx="16" cy="16" r="6" fill="none" stroke="currentColor" stroke-width="1.4" opacity=".8"/>
+        <circle cx="16" cy="16" r="2.2" fill="currentColor"/>
+      </svg>
+      <div>
+        <h1 class="marca-nombre">IGNIS</h1>
+        <p class="marca-sub">Intelligent Guidance for Ignition &amp; Suppression</p>
+      </div>
+    </div>
+
+    <nav class="pestanas" role="tablist" aria-label="Vista">
+      <button type="button" role="tab" id="pestana-investigaciones" class="pestana" data-vista="investigaciones" aria-selected="true" aria-controls="vista-investigaciones">Investigaciones</button>
+      <button type="button" role="tab" id="pestana-monitor" class="pestana" data-vista="monitor" aria-selected="false" aria-controls="vista-monitor" tabindex="-1">Monitor</button>
+      <button type="button" role="tab" id="pestana-incidentes" class="pestana" data-vista="incidentes" aria-selected="false" aria-controls="vista-incidentes" tabindex="-1">Incidentes</button>
+    </nav>
+
+    <div class="barra-estado">
+      <button type="button" id="boton-caja-negra" class="chip chip-boton" title="Descarga el informe PDF del estado actual del simulador">Caja negra (PDF)</button>
+      <button type="button" id="boton-audio" class="chip chip-boton" aria-pressed="false" title="Sonificación del estado (apagada por defecto)">Audio: off</button>
+      <button type="button" id="boton-notas" class="chip chip-boton" aria-pressed="false" title="Abre tus notas, tareas y la exportación a TXT">Notas</button>
+      <span id="chip-validacion" class="chip chip-validacion" data-estado="pendiente" title="Revisión externa de la física y del modelo">Validación pendiente</span>
+      <span id="chip-motores" class="chip chip-datos" title="Motores de predicción listos">Motores: —</span>
+      <button type="button" id="chip-hardware" class="chip chip-boton" aria-controls="panel-hardware" title="Estado del hardware (Arduino/sensor)">Hardware: —</button>
+      <span id="chip-conexion" class="chip" data-estado="desconectado" role="status">Desconectado</span>
+      <span id="chip-origen" class="chip chip-datos">Datos: —</span>
+      <span class="reloj" aria-label="Tiempo de sesión"><span class="reloj-et">T+</span> <span id="reloj">00:00</span></span>
+    </div>
+  </header>
+  <!-- ===================== VISTA: MONITOR ===================== -->
+  <main id="vista-monitor" class="rejilla" role="tabpanel" aria-labelledby="pestana-monitor" tabindex="-1" hidden>
+    <!-- IZQUIERDA: núcleo de riesgo + telemetría -->
+    <div class="columna columna-izq">
+      <section id="nucleo" class="panel panel-nucleo" aria-labelledby="titulo-nucleo" tabindex="-1">
+        <h2 id="titulo-nucleo" class="panel-titulo">Núcleo de riesgo</h2>
+        <div class="nucleo">
+          <canvas id="lienzo-nucleo" class="nucleo-lienzo" aria-hidden="true"></canvas>
+          <div id="nucleo-gauge" class="lectura" role="meter" aria-label="Índice de riesgo de incendio" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="Sin datos">
+            <span class="lectura-etiqueta">Índice de riesgo</span>
+            <span id="lectura-numero" class="lectura-numero" aria-hidden="true">00</span>
+            <span id="lectura-nivel" class="lectura-nivel" aria-hidden="true">NOMINAL</span>
+          </div>
+        </div>
+        <p id="nota-latente" class="nota-latente" hidden>Sin evento: el índice es el potencial latente si hubiera ignición.</p>
+      </section>
+
+      <section class="panel panel-telemetria" aria-labelledby="titulo-telemetria">
+        <h2 id="titulo-telemetria" class="panel-titulo">Telemetría del módulo</h2>
+        <dl class="datos">
+          <div class="dato"><dt>O₂</dt><dd><span id="dato-o2">—</span><span class="unidad">%</span></dd></div>
+          <div class="dato"><dt>Flujo</dt><dd><span id="dato-flujo">—</span><span class="unidad">cm/s</span></dd></div>
+          <div class="dato"><dt>Presión</dt><dd><span id="dato-presion">—</span><span class="unidad">kPa</span></dd></div>
+          <div class="dato"><dt>T ambiente</dt><dd><span id="dato-tamb">—</span><span class="unidad">K</span></dd></div>
+          <div class="dato"><dt>T reacción</dt><dd><span id="dato-treaccion">—</span><span class="unidad">K</span></dd></div>
+          <div class="dato"><dt>Combustible</dt><dd><span id="dato-material">—</span></dd></div>
+          <div class="dato"><dt>Espesor</dt><dd><span id="dato-espesor">—</span><span class="unidad">mm</span></dd></div>
+        </dl>
+        <h2 class="panel-titulo">Predicción</h2>
+        <div class="medidores">
+          <div class="medidor-fila">
+            <div class="medidor-cabecera"><span>Prob. propagación</span><span id="valor-propagacion" class="mono">—</span></div>
+            <div id="medidor-propagacion" class="medidor" role="meter" aria-label="Probabilidad de propagación" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="medidor-relleno"></div></div>
+          </div>
+          <div class="medidor-fila">
+            <div class="medidor-cabecera"><span>Velocidad de llama</span><span id="valor-velocidad" class="mono">—</span></div>
+            <div id="medidor-velocidad" class="medidor" role="meter" aria-label="Velocidad de propagación, relativa a 4.74 mm/s" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="medidor-relleno"></div></div>
+          </div>
+          <div class="medidor-fila">
+            <div class="medidor-cabecera"><span>Prob. llama fría</span><span id="valor-fria" class="mono">—</span></div>
+            <div id="medidor-fria" class="medidor medidor-fria" role="meter" aria-label="Probabilidad de llama fría" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="medidor-relleno"></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="panel-hardware" class="panel panel-hardware" aria-label="Hardware"></section>
+    </div>
+
+    <!-- CENTRO: gemelo digital + simulador (los controles junto a lo que mueven) -->
+    <div class="columna columna-centro">
+    <section class="panel panel-gemelo" aria-labelledby="titulo-gemelo">
+      <div class="panel-cabecera">
+        <h2 id="titulo-gemelo" class="panel-titulo">Gemelo digital</h2>
+        <div class="segmentos segmentos-chicos" role="group" aria-label="Modo de visión">
+          <button type="button" class="segmento" data-vision="visible" aria-pressed="true">Visible</button>
+          <button type="button" class="segmento" data-vision="ir" aria-pressed="false">IR</button>
+          <button type="button" class="segmento" data-vision="dividido" aria-pressed="false">Dividido</button>
+        </div>
+        <button type="button" id="boton-astronauta" class="boton boton-astronauta" aria-pressed="false" title="Oculta la mitad infrarroja unos segundos: así lo ve un astronauta o una cámara común">¿Qué ve el astronauta?</button>
+      </div>
+      <div class="gemelo" id="gemelo">
+        <canvas id="lienzo-gemelo" class="gemelo-lienzo" aria-label="Vista 3D del módulo con la muestra de combustible, la llama y los anillos de riesgo. Arrastre para rotar." role="img" tabindex="0"></canvas>
+        <div id="divisor" class="divisor" hidden>
+          <span class="divisor-rotulo divisor-rotulo-ir">IR</span>
+          <span class="divisor-rotulo divisor-rotulo-vis">VISIBLE</span>
+          <input id="ctl-division" type="range" min="5" max="95" value="50" aria-label="Posición del divisor entre visión infrarroja y visible">
+        </div>
+        <div id="foco-overlay" class="foco-overlay" hidden aria-hidden="true"><span class="foco-anillo"></span><span id="foco-texto" class="foco-texto mono"></span></div>
+        <div id="etiqueta-invisible" class="etiqueta-invisible mono" role="status" hidden></div>
+        <div id="contraste-termico" class="contraste" aria-live="off"><span class="contraste-et">Contraste térmico</span><span id="contraste-valor" class="mono">—</span><span class="contraste-barra"><span id="contraste-relleno"></span></span><span id="contraste-visible" class="contraste-vis mono">—</span></div>
+        <p id="gemelo-fallback" class="gemelo-fallback" hidden>WebGL no está disponible en este navegador. El resto del HUD funciona con normalidad.</p>
+        <p class="gemelo-nota">La llama fría <strong>no emite luz visible</strong>: solo aparece en visión IR.</p>
+        <button type="button" id="boton-camara" class="boton boton-flotante">Reiniciar cámara</button>
+      </div>
+    </section>
+      <section class="panel panel-simulador" aria-labelledby="titulo-simulador">
+        <div class="panel-cabecera"><h2 id="titulo-simulador" class="panel-titulo">Simulador y escenarios</h2></div>
+        <div class="escenarios" role="group" aria-label="Escenarios rápidos (cargan el modo manual)">
+          <span class="escenarios-et">Probar atmósfera</span>
+          <button type="button" class="boton" data-escenario="iss" title="Aire de la ISS: 21 % O₂, 101.3 kPa">ISS</button>
+          <button type="button" class="boton" data-escenario="luna" title="Base lunar según el reto: 30 % O₂, 70.3 kPa">Base lunar</button>
+          <button type="button" class="boton" data-escenario="marte" title="SUPUESTO: se asume la misma atmósfera que la Luna">Marte (supuesto)</button>
+          <button type="button" class="boton" data-escenario="limite" title="Extremo del dominio del modelo: 40 % O₂, 35 kPa">Caso extremo</button>
+        </div>
+        <div class="hw-mini" aria-live="polite"><span id="hw-mini-punto" class="hw-mini-punto" data-estado="desconectado" aria-hidden="true"></span>
+          <span id="hw-mini-texto">Hardware: sin conexión</span><button type="button" id="hw-mini-abrir" class="boton">Detalle</button></div>
+        <div class="segmentos" role="group" aria-label="Fuente de datos">
+          <button type="button" class="segmento" data-fuente="vivo" aria-pressed="true">En vivo</button>
+          <button type="button" class="segmento" data-fuente="reproduccion" aria-pressed="false">Reproducción</button>
+        </div>
+        <div id="panel-modo-vivo">
+        <div class="segmentos" role="group" aria-label="Modo de operación">
+          <button type="button" class="segmento" data-modo="escenario" aria-pressed="true">Escenario</button>
+          <button type="button" class="segmento" data-modo="manual" aria-pressed="false">Manual</button>
+        </div>
+        <div id="panel-manual" class="manual" hidden>
+          <label class="control" for="ctl-o2"><span>O₂</span><output id="ctl-o2-valor" for="ctl-o2" class="mono">21.0 %</output>
+            <input id="ctl-o2" type="range" min="16" max="40" step="0.5" value="21"></label>
+          <label class="control" for="ctl-flujo"><span>Flujo</span><output id="ctl-flujo-valor" for="ctl-flujo" class="mono">10 cm/s</output>
+            <input id="ctl-flujo" type="range" min="0" max="60" step="1" value="10"></label>
+          <label class="control" for="ctl-presion"><span>Presión</span><output id="ctl-presion-valor" for="ctl-presion" class="mono">101.3 kPa</output>
+            <input id="ctl-presion" type="range" min="35" max="101.3" step="0.1" value="101.3"></label>
+          <label class="control" for="ctl-temp"><span>T reacción</span><output id="ctl-temp-valor" for="ctl-temp" class="mono">300 K</output>
+            <input id="ctl-temp" type="range" min="250" max="1500" step="10" value="300"></label>
+          <label class="casilla" for="ctl-termopar"><input id="ctl-termopar" type="checkbox" checked> Termopar activo</label>
+          <p id="error-manual" class="error" role="alert"></p>
+        </div>
+        </div>
+        <p class="descargo">Apoyo a decisión. No sustituye los procedimientos de misión.</p>
+      </section>
+    </div>
+
+    <!-- DERECHA: detector, copiloto, simulador -->
+    <div class="columna columna-der">
+      <section class="panel panel-detector" aria-labelledby="titulo-detector">
+        <div class="panel-cabecera">
+          <h2 id="titulo-detector" class="panel-titulo">Detector temporal</h2>
+          <span class="etiqueta">TCN causal</span>
+        </div>
+        <div id="detector-estado" class="detector-estado" data-estado="espera">
+          <span class="detector-punto" aria-hidden="true"></span>
+          <span id="detector-texto">Esperando sensores…</span>
+        </div>
+        <canvas id="lienzo-detector" class="detector-lienzo" role="img" aria-label="Probabilidad de evento (llama fría o caliente) en los últimos segundos"></canvas>
+        <dl class="detector-datos">
+          <div><dt>P(evento)</dt><dd id="detector-p" class="mono">—</dd></div>
+          <div><dt>ΔT</dt><dd id="detector-dt" class="mono">—</dd></div>
+          <div><dt>IR</dt><dd id="detector-ir" class="mono">—</dd></div>
+          <div><dt>Inferencia</dt><dd id="detector-lat" class="mono">—</dd></div>
+        </dl>
+        <label class="control control-selector" for="detector-traza"><span>Señal de entrada</span>
+          <select id="detector-traza">
+            <option value="nominal">Nominal</option>
+            <option value="artefacto">Pico de un sensor (artefacto)</option>
+            <option value="calentamiento">Calentamiento benigno</option>
+            <option value="fria">Llama fría</option>
+            <option value="fria_a_caliente">Fría → caliente</option>
+            <option value="caliente" selected>Llama caliente</option>
+          </select>
+        </label>
+        <p class="descargo">Señales sintéticas de 6 canales a 10 Hz. Con hardware real se sustituye la fuente sin cambiar el contrato.</p>
+      </section>
+
+      <section class="panel panel-copiloto" aria-labelledby="titulo-copiloto">
+        <div class="panel-cabecera">
+          <h2 id="titulo-copiloto" class="panel-titulo">Copiloto</h2>
+          <label class="selector-motor" for="copiloto-motor"><span class="sr-only">Motor de predicción</span>
+            <select id="copiloto-motor"><option value="rf">RF</option><option value="profundo" disabled>Profundo</option></select>
+          </label>
+        </div>
+        <div id="fria-estado" class="fria" data-estado="NO_EVALUADA">
+          <span class="fria-punto" aria-hidden="true"></span>
+          <span id="fria-texto">Sin lectura de temperatura de reacción</span>
+        </div>
+        <ul id="copiloto-mensajes" class="mensajes" aria-label="Mensajes del copiloto" hidden></ul>
+        <p id="copiloto-resumen" class="copiloto-resumen">Calculando explicación…</p>
+        <ul id="copiloto-factores" class="factores" aria-label="Variables que más mueven el riesgo"></ul>
+        <p id="copiloto-motores" class="motores-nota mono" data-acuerdo="true">—</p>
+        <ul id="copiloto-avisos" class="avisos" hidden></ul>
+        <ul id="lista-acciones" class="acciones" aria-label="Acciones sugeridas"></ul>
+        <p id="acciones-vacio" class="vacio">Sin acciones: condiciones nominales.</p>
+        <p id="aviso-datos" class="aviso" hidden>Datos de entrenamiento sintéticos: tendencia cualitativa, no datos NASA.</p>
+      </section>
+      <section class="panel panel-contexto" aria-labelledby="titulo-contexto">
+        <h2 id="titulo-contexto" class="panel-titulo">Atmósfera en contexto</h2>
+        <div id="contexto-cuerpo" aria-live="polite"><p class="vacio">Esperando condiciones…</p></div>
+      </section>
+    </div>
+
+    <!-- DOCK: reproducción cinemática (visible solo con Fuente = Reproducción) -->
+    <section id="reproductor" class="panel panel-reproductor" aria-labelledby="titulo-reproductor" hidden>
+      <div class="panel-cabecera">
+        <h2 id="titulo-reproductor" class="panel-titulo">Reproducción de incidentes y escenarios</h2>
+        <label class="selector-motor" for="rep-escenario"><span class="sr-only">Escenario o incidente</span>
+          <select id="rep-escenario"><option>Cargando…</option></select>
+        </label>
+      </div>
+      <div id="rep-info" class="rep-info" aria-live="polite"></div>
+      <div class="rep-controles">
+        <button type="button" id="rep-play" class="boton" aria-pressed="false">▶ Reproducir</button>
+        <button type="button" id="rep-reset" class="boton">⟲ Reiniciar</button>
+        <div class="segmentos segmentos-chicos" role="group" aria-label="Velocidad de reproducción">
+          <button type="button" class="segmento" data-rep-vel="0.5" aria-pressed="false">0.5×</button>
+          <button type="button" class="segmento" data-rep-vel="1" aria-pressed="true">1×</button>
+          <button type="button" class="segmento" data-rep-vel="2" aria-pressed="false">2×</button>
+          <button type="button" class="segmento" data-rep-vel="10" aria-pressed="false">10×</button>
+        </div>
+        <span id="rep-tiempo" class="rep-tiempo mono" role="timer" aria-label="Tiempo de reproducción">00:00.0 / 00:00.0</span>
+      </div>
+      <div id="rep-lineas" class="rep-lineas"></div>
+      <div class="rep-inferior">
+        <section class="rep-bloque" aria-labelledby="titulo-latencia">
+          <h3 id="titulo-latencia" class="rep-subtitulo">Latencia: sensor → TCN → copiloto</h3>
+          <div id="rep-latencia"></div>
+        </section>
+        <section class="rep-bloque" aria-labelledby="titulo-whatif">
+          <h3 id="titulo-whatif" class="rep-subtitulo">Qué pasaría si…</h3>
+          <label class="control" for="wi-o2"><span>O₂</span><output id="wi-o2-v" for="wi-o2" class="mono">—</output>
+            <input id="wi-o2" type="range" min="16" max="40" step="0.5" value="21"></label>
+          <label class="control" for="wi-flujo"><span>Flujo</span><output id="wi-flujo-v" for="wi-flujo" class="mono">—</output>
+            <input id="wi-flujo" type="range" min="0" max="100" step="1" value="10"></label>
+          <label class="control" for="wi-treac"><span>T reacción</span><output id="wi-treac-v" for="wi-treac" class="mono">—</output>
+            <input id="wi-treac" type="range" min="250" max="1500" step="10" value="300"></label>
+          <p id="rep-whatif-estado" class="descargo" aria-live="polite"></p>
+          <p id="rep-whatif-resultado" class="rep-whatif-resultado mono" aria-live="polite"></p>
+          <button type="button" id="wi-volver" class="boton">Seguir la reproducción</button>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== VISTA: INVESTIGACIONES (principal, reto NASA 2026) ===================== -->
+  <main id="vista-investigaciones" class="vista-inv" role="tabpanel" aria-labelledby="pestana-investigaciones" tabindex="-1">
+    <header class="inv-cabecera">
+      <div class="inv-cab-txt">
+        <h2 class="inv-h2">Seguridad contra incendios en el espacio</h2>
+        <p class="inv-sub">Qué investigaciones importan, qué falta y qué riesgo implica cada atmósfera. Lo desconocido se marca, no se rellena.</p>
+      </div>
+      <div class="inv-barra-acciones">
+        <div class="segmentos" role="group" aria-label="Entorno objetivo">
+          <button type="button" class="segmento" data-inv-entorno="iss" aria-pressed="false">ISS</button>
+          <button type="button" class="segmento" data-inv-entorno="luna" aria-pressed="true">Luna</button>
+          <button type="button" class="segmento" data-inv-entorno="marte" aria-pressed="false">Marte</button>
+          <button type="button" class="segmento" data-inv-entorno="traje" aria-pressed="false">Traje</button>
+        </div>
+        <label class="inv-filtro">Área
+          <select id="inv-filtro-area"><option value="">Todas</option><option value="prevencion">Prevención</option><option value="deteccion">Detección</option><option value="supresion">Supresión</option></select>
+        </label>
+        <label class="inv-filtro">Combustible
+          <select id="inv-filtro-comb"><option value="">Todos</option><option value="solido">Sólido</option><option value="gas">Gas</option><option value="gota">Gota</option><option value="aerosol">Humo/polvo</option></select>
+        </label>
+        <button type="button" id="inv-export-csv" class="boton">CSV</button>
+        <button type="button" id="inv-export-json" class="boton">JSON</button>
+        <button type="button" id="inv-export-anclas" class="boton" title="Valores de calibración (Saffire, FLEX)">Anclas</button>
+        <button type="button" id="inv-prueba-boton" class="boton" aria-expanded="false" aria-controls="inv-prueba-panel" title="Ensaya cómo entran datos nuevos desde un CSV">Datos de prueba</button>
+        <button type="button" id="inv-demo-boton" class="boton boton-demo" title="Recorrido guiado de la consola">▶ Demo guiada</button>
+      </div>
+    </header>
+    <section id="inv-prueba-panel" class="inv-prueba" aria-label="Datos de prueba" hidden>
+      <p class="inv-nota"><strong>Ensaya cómo entran datos nuevos.</strong> Sube un CSV (o usa el ejemplo): IGNIS entiende las columnas, convierte unidades y actualiza ranking, Pareto, mapa y comparación. Es reversible y no toca el catálogo real; todo queda marcado como PRUEBA.</p>
+      <div class="inv-fila">
+        <button type="button" id="inv-prueba-ejemplo" class="boton">Cargar CSV de ejemplo</button>
+        <button type="button" id="inv-prueba-subir" class="boton">Subir mi CSV…</button>
+        <input type="file" id="inv-prueba-archivo" accept=".csv,text/csv" hidden aria-label="Archivo CSV de prueba">
+        <a class="boton" href="/api/v1/investigaciones/prueba/plantilla" download>Descargar el ejemplo</a>
+        <button type="button" id="inv-prueba-quitar" class="boton" disabled>Quitar datos de prueba</button>
+      </div>
+      <p class="inv-nota">Columnas reconocidas: investigación (obligatoria), O₂ (% o fracción), flujo, presión (con unidad: kPa, psi, atm…), combustible, hardware, objetivos. Lo que no se entiende se ignora y se informa; nunca se adivina.</p>
+      <div id="inv-prueba-informe" aria-live="polite"></div>
+    </section>
+    <div id="inv-prueba-banner" class="inv-banner-prueba" role="status" hidden><span id="inv-prueba-banner-texto"></span><button type="button" id="inv-prueba-banner-quitar" class="boton">Quitar</button></div>
+    <p id="inv-estado" class="inv-estado" role="status" aria-live="polite">Cargando…</p>
+    <details id="inv-calidad" class="inv-calidad" hidden></details>
+    <div id="inv-kpis" class="inv-kpis" aria-label="Resumen del catálogo"></div>
+    <div class="inv-consola">
+      <aside class="inv-rail panel" aria-labelledby="inv-t-rank">
+        <h3 id="inv-t-rank" class="panel-titulo">Ranking de relevancia</h3>
+        <div class="inv-buscar" role="search">
+          <span class="inv-buscar-lupa" aria-hidden="true">⌕</span>
+          <input id="inv-buscar" type="search" class="inv-buscar-input" placeholder="Nombre, combustible, hardware…" aria-label="Buscar investigaciones por nombre, combustible o hardware" autocomplete="off" maxlength="80">
+          <button type="button" id="inv-buscar-limpiar" class="inv-buscar-limpiar" aria-label="Limpiar búsqueda" hidden>×</button>
+        </div>
+        <p id="inv-buscar-cuenta" class="inv-nota" role="status" aria-live="polite" hidden></p>
+        <ol id="inv-lista" class="inv-lista" aria-busy="true"></ol>
+        <div id="inv-bandeja" class="inv-bandeja" aria-live="polite"></div>
+      </aside>
+      <section class="inv-estacion" aria-label="Estación de análisis">
+        <div class="inv-pestanas" role="tablist" aria-label="Análisis">
+          <button type="button" role="tab" class="inv-tab" data-inv-tab="analisis" aria-selected="true">Análisis</button>
+          <button type="button" role="tab" class="inv-tab" data-inv-tab="pareto" aria-selected="false" tabindex="-1">Pareto</button>
+          <button type="button" role="tab" class="inv-tab" data-inv-tab="mapa" aria-selected="false" tabindex="-1">Mapa de riesgo</button>
+          <button type="button" role="tab" class="inv-tab" data-inv-tab="luna" aria-selected="false" tabindex="-1">Base lunar</button>
+          <button type="button" role="tab" class="inv-tab" data-inv-tab="comparar" aria-selected="false" tabindex="-1">Comparar<span id="tab-comparar-n"></span></button>
+          <button type="button" role="tab" class="inv-tab" data-inv-tab="confianza" aria-selected="false" tabindex="-1">Confianza</button>
+          <button type="button" role="tab" class="inv-tab" data-inv-tab="huecos" aria-selected="false" tabindex="-1">Hoja de ruta</button>
+          <button type="button" role="tab" class="inv-tab" data-inv-tab="tierra" aria-selected="false" tabindex="-1">Del espacio a la Tierra</button>
+        </div>
+        <div id="inv-p-analisis" class="inv-panel" role="tabpanel"><div id="inv-detalle"><p class="vacio">Elige una investigación del ranking.</p></div></div>
+        <div id="inv-p-pareto" class="inv-panel" role="tabpanel" hidden>
+          <p class="par-guia"><b>¿Qué priorizar primero?</b> Cada punto es una investigación. A la <b>izquierda</b> hay poca evidencia verificada; <b>arriba</b>, más riesgo. Las rojas de la <b>frontera</b> son las que nadie supera a la vez en riesgo y en falta de evidencia: ahí conviene estudiar o completar datos primero. El tamaño del punto es su relevancia para el entorno elegido.</p>
+          <div id="inv-pareto-barra" class="inv-herr"></div>
+          <div id="inv-pareto-resumen" class="inv-nota"></div>
+          <div class="par-cuerpo"><div class="lienzo-caja"><canvas id="inv-pareto-lienzo" role="img" aria-label="Dispersión de riesgo por evidencia con la frontera de Pareto"></canvas></div>
+            <div class="par-lateral"><div id="inv-pareto-detalle" aria-live="polite"></div><span class="inv-etq" id="inv-pareto-lista-t">Por prioridad (clic para resaltar en el gráfico)</span><ul id="inv-pareto-lista" class="inv-leyenda" aria-labelledby="inv-pareto-lista-t"></ul></div></div>
+          <details class="par-metodo"><summary>Cómo se calcula (método y supuestos)</summary><p id="inv-pareto-aviso" class="inv-nota">Cargando el método…</p></details>
+        </div>
+        <div id="inv-p-mapa" class="inv-panel" role="tabpanel" hidden>
+          <div id="inv-mapa-capas" class="inv-herr"></div>
+          <div class="inv-mapa"><div class="lienzo-caja"><canvas id="inv-mapa-lienzo" tabindex="0" role="img" aria-label="Mapa interactivo del índice de riesgo según O₂ y presión, con evidencia y entornos"></canvas></div>
+            <div><div id="inv-mapa-lectura" aria-live="polite"></div><div id="inv-mapa-sonda"></div><ul id="inv-mapa-leyenda" class="inv-leyenda"></ul></div></div>
+        </div>
+        <div id="inv-p-luna" class="inv-panel" role="tabpanel" hidden><div id="inv-luna"></div></div>
+        <div id="inv-p-comparar" class="inv-panel" role="tabpanel" hidden><div id="inv-comparar"></div></div>
+        <div id="inv-p-confianza" class="inv-panel" role="tabpanel" hidden><div id="inv-confianza"></div></div>
+        <div id="inv-p-huecos" class="inv-panel" role="tabpanel" hidden><div id="inv-huecos"></div></div>
+        <div id="inv-p-tierra" class="inv-panel" role="tabpanel" hidden><div id="inv-tierra"></div></div>
+      </section>
+    </div>
+    <div id="inv-toast" class="inv-toast" role="status" aria-live="polite" hidden></div>
+  </main>
+
+  <!-- ===================== VISTA: INCIDENTES ===================== -->
+  <main id="vista-incidentes" class="vista-incidentes" role="tabpanel" aria-labelledby="pestana-incidentes" tabindex="-1" hidden>
+    <aside class="panel incidentes-rail" aria-labelledby="titulo-incidentes">
+      <h2 id="titulo-incidentes" class="panel-titulo">Incidentes históricos</h2>
+      <p class="descargo">Cada hecho muestra su nivel de confianza y su fuente. Lo que no está documentado queda sin hora.</p>
+      <ul id="incidentes-lista" class="incidentes-lista" aria-label="Lista de incidentes"></ul>
+    </aside>
+    <section id="incidentes-detalle" class="panel incidentes-detalle" aria-live="polite" aria-busy="false">
+      <p class="vacio">Selecciona un incidente.</p>
+    </section>
+  </main>
+
+  <footer class="pie" id="pie-monitor">
+    <div class="pie-titulo panel-titulo">Historial del índice</div>
+    <canvas id="lienzo-historial" class="pie-lienzo" role="img" aria-label="Gráfica del índice de riesgo en el tiempo reciente"></canvas>
+  </footer>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

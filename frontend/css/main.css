@@ -1,0 +1,144 @@
+/* IGNIS — tokens, base y layout. Paleta: fondo #0a0e17, ámbar #ffb347, cian #4fd1ff, alerta #ff3b3b */
+
+/* Fuentes autoalojadas: la demo funciona sin red */
+@font-face { font-family: "Inter"; font-weight: 400; font-style: normal; font-display: swap;
+  src: url("../assets/fonts/inter-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 500; font-style: normal; font-display: swap;
+  src: url("../assets/fonts/inter-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 600; font-style: normal; font-display: swap;
+  src: url("../assets/fonts/inter-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "JetBrains Mono"; font-weight: 400; font-style: normal; font-display: swap;
+  src: url("../assets/fonts/jetbrains-mono-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "JetBrains Mono"; font-weight: 500; font-style: normal; font-display: swap;
+  src: url("../assets/fonts/jetbrains-mono-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "JetBrains Mono"; font-weight: 700; font-style: normal; font-display: swap;
+  src: url("../assets/fonts/jetbrains-mono-latin-700-normal.woff2") format("woff2"); }
+
+/* Registrada para que el color de acento TRANSICIONE suavemente entre niveles de riesgo */
+@property --acento {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #4fd1ff;
+}
+
+:root {
+  --fondo: #0a0e17;
+  --fondo-2: #0d1320;
+  --panel: #101726;
+  --linea: rgba(79, 209, 255, 0.16);
+  --linea-fuerte: rgba(79, 209, 255, 0.34);
+  --ambar: #ffb347;
+  --cian: #4fd1ff;
+  --naranja: #ff7a3c;
+  --rojo: #ff3b3b;
+  --texto: #e6edf7;
+  --texto-2: #98a9c2;   /* contraste ≥ 7:1 sobre --panel (WCAG AA/AAA) */
+  --texto-3: #7f91ab;   /* contraste ≥ 5:1: etiquetas pequeñas */
+  --fuente-ui: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --fuente-datos: "JetBrains Mono", "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --radio: 4px;
+  --transicion: 500ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+body {
+  --acento: var(--cian);
+  transition: --acento var(--transicion);
+}
+body[data-nivel="PRECAUCION"] { --acento: var(--ambar); }
+body[data-nivel="ALERTA"] { --acento: var(--naranja); }
+body[data-nivel="CRITICO"] { --acento: var(--rojo); }
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { height: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: minmax(0, 1fr);
+  background: var(--fondo);
+  color: var(--texto);
+  font: 400 14px/1.45 var(--fuente-ui);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Rejilla de puntos tenue: da textura de instrumento sin competir con los datos */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image: radial-gradient(rgba(79, 209, 255, 0.07) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+}
+
+h1, h2, p, dl, dd, ul { margin: 0; padding: 0; }
+ul { list-style: none; }
+
+.mono { font-family: var(--fuente-datos); }
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.saltar {
+  position: absolute;
+  left: 12px; top: -48px;
+  z-index: 10;
+  padding: 8px 14px;
+  background: var(--cian);
+  color: var(--fondo);
+  font-weight: 600;
+  border-radius: var(--radio);
+}
+.saltar:focus { top: 12px; }
+
+:focus-visible {
+  outline: 2px solid var(--cian);
+  outline-offset: 2px;
+}
+
+/* ---- Layout ---- */
+.rejilla {
+  display: grid;
+  grid-template-columns: minmax(250px, 310px) minmax(0, 1fr) minmax(290px, 350px);
+  gap: 16px;
+  padding: 16px 20px;
+  align-items: stretch;
+}
+.rejilla[hidden], .vista-incidentes[hidden] { display: none; }
+.columna { display: grid; gap: 16px; align-content: start; min-width: 0; }
+.panel-gemelo { min-height: 560px; }
+
+/* Portátil estrecho / tablet: el gemelo (lo más impactante) pasa arriba a todo el ancho */
+@media (max-width: 1180px) {
+  .rejilla { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .panel-gemelo { grid-column: 1 / -1; order: -1; min-height: 480px; }
+}
+
+@media (max-width: 680px) {
+  .rejilla { grid-template-columns: minmax(0, 1fr); padding: 12px; }
+  .panel-gemelo { min-height: 380px; }
+}
+
+body[data-vista="incidentes"] .pie { display: none; }
+
+/* La barra superior del Dashboard (Investigaciones) solo muestra lo que le corresponde; los controles del simulador son del Monitor */
+body[data-vista="investigaciones"] #boton-caja-negra,
+body[data-vista="investigaciones"] #boton-audio,
+body[data-vista="investigaciones"] #chip-motores,
+body[data-vista="investigaciones"] #chip-hardware,
+body[data-vista="investigaciones"] #chip-conexion,
+body[data-vista="investigaciones"] #chip-origen,
+body[data-vista="investigaciones"] .reloj,
+body:not([data-vista="monitor"]) .pie { display: none !important; }
+body[data-vista="incidentes"] #boton-caja-negra, body[data-vista="incidentes"] #boton-audio { display: none; }
